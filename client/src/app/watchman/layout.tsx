@@ -13,23 +13,29 @@ export default function WatchmanLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, logout, loading } = useAuth();
+  const { user, logout, loading, isAuthenticated } = useAuth();
   const { activeEmergency } = useEmergency();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
+    // Redirect to login if not authenticated
+    if (!loading && !isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    // Redirect non-watchman users to home
     if (!loading && user && user.role !== 'watchman') {
       router.push('/');
     }
-  }, [user, loading, router]);
+  }, [user, loading, isAuthenticated, router]);
 
   const handleLogout = async () => {
     await logout();
     router.push('/login');
   };
 
-  if (loading) {
+  if (loading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>

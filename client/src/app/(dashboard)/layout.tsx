@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useEmergency } from '@/hooks/useEmergency';
 import Navbar from '@/components/layout/Navbar';
@@ -13,9 +15,17 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { loading, user } = useAuth();
+  const router = useRouter();
+  const { loading, user, isAuthenticated } = useAuth();
   const { activeEmergency, loading: emergencyLoading, resolveEmergency, resolveLoading } = useEmergency();
   const { toast } = useToast();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [loading, isAuthenticated, router]);
 
   // Check if user can resolve emergency (manager or admin)
   const canResolve = user?.role === 'manager' || user?.role === 'admin';
@@ -36,7 +46,7 @@ export default function DashboardLayout({
     }
   };
 
-  if (loading) {
+  if (loading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
