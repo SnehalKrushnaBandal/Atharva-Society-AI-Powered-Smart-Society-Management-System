@@ -1,0 +1,69 @@
+# Dependabot configuration
+version: 2
+updates:
+  # Frontend dependencies
+  - package-ecosystem: "npm"
+    directory: "/client"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "frontend"
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      next:
+        patterns:
+          - "next*"
+          - "@next/*"
+      tailwind:
+        patterns:
+          - "tailwind*"
+          - "postcss*"
+          - "autoprefixer"
+
+  # Backend dependencies
+  - package-ecosystem: "npm"
+    directory: "/server"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "backend"
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      express:
+        patterns:
+          - "express*"
+          - "cors"
+          - "helmet"
+          - "morgan"
+      mongoose:
+        patterns:
+          - "mongoose*"
+          - "mongodb*"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(ci):"
