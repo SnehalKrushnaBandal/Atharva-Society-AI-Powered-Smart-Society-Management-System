@@ -16,7 +16,6 @@ import {
   FileText,
   Settings,
   Home,
-  Bell,
   Shield,
   MoreHorizontal,
   X,

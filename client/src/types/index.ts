@@ -37,7 +37,7 @@ export interface RegisterData {
   phone: string;
 }
 
-export interface ManagerSetupData extends RegisterData {}
+export type ManagerSetupData = RegisterData;
 
 // Maintenance Types
 export interface Maintenance {

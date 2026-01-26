@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else {
         setUser(null);
       }
-    } catch (error) {
+    } catch (_error) {
       setUser(null);
     } finally {
       setLoading(false);
@@ -51,8 +51,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: true, message: response.data.message, user: response.data.data.user };
       }
       return { success: false, message: response.data.message || 'Login failed' };
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed. Please try again.';
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || 'Login failed. Please try again.';
       return { success: false, message };
     }
   };
@@ -66,8 +67,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: true, message: response.data.message };
       }
       return { success: false, message: response.data.message || 'Registration failed' };
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || 'Registration failed. Please try again.';
       return { success: false, message };
     }
   };
@@ -81,8 +83,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: true, message: response.data.message, user: response.data.data.user };
       }
       return { success: false, message: response.data.message || 'Setup failed' };
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Manager setup failed. Please try again.';
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || 'Manager setup failed. Please try again.';
       return { success: false, message };
     }
   };

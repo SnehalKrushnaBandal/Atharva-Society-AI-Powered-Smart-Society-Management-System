@@ -4,7 +4,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config({ path: '.env.local' });
 
 // Import routes
 const authRoutes = require('./routes/auth.routes');
@@ -46,6 +48,18 @@ app.get('/api/health', (req, res) => {
     message: 'Rajarshi Darshan Society Management API is running',
     timestamp: new Date().toISOString()
   });
+});
+
+// Landing page route
+app.get('/', (req, res) => {
+  const htmlPath = path.join(__dirname, 'templates', 'landing.html');
+  let html = fs.readFileSync(htmlPath, 'utf8');
+  
+  // Replace placeholder with actual client URL
+  const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+  html = html.replace(/\{\{CLIENT_URL\}\}/g, clientUrl);
+  
+  res.type('html').send(html);
 });
 
 // API Routes

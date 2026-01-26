@@ -47,9 +47,10 @@ export function useEmergency() {
       const response = await api.get('/emergency/active');
       setActiveEmergency(response.data.data || null);
       setError(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error checking emergency:', err);
-      setError(err.response?.data?.message || 'Failed to check emergency status');
+      const axiosError = err as { response?: { data?: { message?: string } } };
+      setError(axiosError.response?.data?.message || 'Failed to check emergency status');
       setActiveEmergency(null);
     } finally {
       setLoading(false);
@@ -64,8 +65,9 @@ export function useEmergency() {
       const response = await api.post('/emergency/trigger', { notes });
       setActiveEmergency(response.data.data);
       return response.data;
-    } catch (err: any) {
-      const message = err.response?.data?.message || 'Failed to trigger emergency';
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || 'Failed to trigger emergency';
       setError(message);
       throw new Error(message);
     } finally {
@@ -81,8 +83,9 @@ export function useEmergency() {
       const response = await api.put(`/emergency/${id}/resolve`, { notes });
       setActiveEmergency(null);
       return response.data;
-    } catch (err: any) {
-      const message = err.response?.data?.message || 'Failed to resolve emergency';
+    } catch (err: unknown) {
+      const axiosError = err as { response?: { data?: { message?: string } } };
+      const message = axiosError.response?.data?.message || 'Failed to resolve emergency';
       setError(message);
       throw new Error(message);
     } finally {
@@ -95,9 +98,10 @@ export function useEmergency() {
     try {
       const response = await api.get(`/emergency/history?page=${page}&limit=${limit}`);
       return response.data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching emergency history:', err);
-      throw new Error(err.response?.data?.message || 'Failed to fetch history');
+      const axiosError = err as { response?: { data?: { message?: string } } };
+      throw new Error(axiosError.response?.data?.message || 'Failed to fetch history');
     }
   }, []);
 

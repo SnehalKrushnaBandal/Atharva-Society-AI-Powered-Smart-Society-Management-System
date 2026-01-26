@@ -14,7 +14,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
 import { SOCIETY_NAME } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import {
@@ -30,7 +29,6 @@ import {
   FileText,
   Settings,
   Bell,
-  Search,
   ChevronDown,
   Shield,
   User,
