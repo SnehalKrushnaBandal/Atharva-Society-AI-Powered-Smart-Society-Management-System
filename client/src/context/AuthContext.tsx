@@ -25,7 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await api.get('/auth/me');
+      // Add timestamp to bypass cache
+      const response = await api.get(`/auth/me?_t=${Date.now()}`);
       if (response.data.success && response.data.data?.user) {
         setUser(response.data.data.user);
       } else {
@@ -48,6 +49,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await api.post('/auth/login', credentials);
       if (response.data.success && response.data.data?.user) {
         setUser(response.data.data.user);
+        // Force re-check auth to ensure cookie is properly set
+        await checkAuth();
         return { success: true, message: response.data.message, user: response.data.data.user };
       }
       return { success: false, message: response.data.message || 'Login failed' };
