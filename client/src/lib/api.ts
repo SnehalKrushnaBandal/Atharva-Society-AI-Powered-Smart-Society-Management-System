@@ -3,15 +3,22 @@ import axios from 'axios';
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api',
-  withCredentials: true, // Send cookies with requests
+  withCredentials: true, // Still send cookies for backwards compatibility
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor
+// Request interceptor - Add Authorization header from localStorage
 api.interceptors.request.use(
   (config) => {
+    // Get token from localStorage and add to header
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
     return config;
   },
   (error) => {
