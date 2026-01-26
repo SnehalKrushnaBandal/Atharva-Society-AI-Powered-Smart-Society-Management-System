@@ -14,11 +14,13 @@ const generateToken = (userId) => {
 
 // Helper: Set JWT Cookie
 const setTokenCookie = (res, token) => {
+  const isProduction = process.env.NODE_ENV === 'production';
   const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    secure: isProduction, // Must be true for sameSite: 'none'
+    sameSite: isProduction ? 'none' : 'lax', // 'none' required for cross-origin cookies
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: '/'
   };
   res.cookie('token', token, cookieOptions);
 };
