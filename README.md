@@ -48,14 +48,6 @@ A complete society management solution for **Rajarshi Darshan** housing society 
 | 🌐 **Frontend** | [society-management-system-vert.vercel.app](https://society-management-system-vert.vercel.app/showcase) |
 | 🔗 **Backend API** | [society-management-system-zjlf.onrender.com](https://society-management-system-zjlf.onrender.com) |
 
-### Demo Credentials
-
-| Role | Email | Password |
-|------|-------|----------|
-| Manager | `aayushvaghela12@gmail.com` | `manager123` |
-| Resident | `testuser@example.com` | `test123456` |
-| Watchman | `196380309060@paruluniversity.ac.in` | `42997324` |
-
 ## 🎬 Video Demos
 
 <table>

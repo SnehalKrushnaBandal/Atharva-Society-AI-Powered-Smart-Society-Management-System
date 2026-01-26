@@ -42,7 +42,6 @@ const DEFAULT_PASSWORD = 'password123';
 // ============================================
 
 const usersData = [
-  // Manager (already exists - aayushvaghela12@gmail.com)
   // Admin users
   {
     name: 'Rajesh Sharma',
@@ -495,7 +494,7 @@ async function seedDatabase() {
       
       // Only delete seeded users (not manager/admin that were manually created)
       await User.deleteMany({ 
-        email: { $nin: ['aayushvaghela12@gmail.com', 'testuser@example.com', '196380309060@paruluniversity.ac.in'] }
+        email: { $nin: ['testuser@example.com'] }
       });
       console.log('   ✓ Seeded users cleared (preserved existing accounts)\n');
 
