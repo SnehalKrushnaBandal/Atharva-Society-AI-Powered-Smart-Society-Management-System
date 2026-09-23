@@ -14,12 +14,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { SOCIETY_NAME } from '@/lib/constants';
+import { SOCIETY_NAME, SOCIETY_TAGLINE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import {
   Menu,
   LogOut,
-  Building2,
+  Sparkles,
   LayoutDashboard,
   CreditCard,
   MessageSquare,
@@ -92,7 +92,7 @@ export default function Navbar() {
       case 'watchman':
         return { label: 'Watchman', icon: Shield, color: 'bg-green-100 text-green-700 border-green-200' };
       default:
-        return { label: 'Resident', icon: User, color: 'bg-blue-100 text-blue-700 border-blue-200' };
+        return { label: 'Resident', icon: User, color: 'bg-teal-100 text-teal-700 border-teal-200' };
     }
   };
 
@@ -111,12 +111,12 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Building2 className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-teal-800 rounded-xl flex items-center justify-center shadow-lg shadow-teal-700/20">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="hidden sm:block">
               <span className="font-bold text-lg text-slate-900 tracking-tight">{SOCIETY_NAME}</span>
-              <span className="text-xs text-slate-500 block">Society Management</span>
+              <span className="text-xs text-slate-500 block">{SOCIETY_TAGLINE}</span>
             </div>
           </Link>
 
@@ -190,8 +190,8 @@ export default function Navbar() {
               <SheetContent side="right" className="w-[300px] sm:w-[340px] p-0">
                 <SheetHeader className="p-6 pb-4 border-b border-slate-100">
                   <SheetTitle className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
-                      <Building2 className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-teal-800 rounded-xl flex items-center justify-center">
+                      <Sparkles className="w-5 h-5 text-white" />
                     </div>
                     <span className="text-lg font-bold">{SOCIETY_NAME}</span>
                   </SheetTitle>

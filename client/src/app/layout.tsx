@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Rajarshi Darshan - Society Management",
-  description: "Society Management System for Rajarshi Darshan Housing Society",
+  title: "Atharva Society | AI-Powered Smart Society Management",
+  description: "AI-Powered Smart Society Management System for intelligent residential community management.",
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-# Contributing to Rajarshi Darshan Society Management
+# Contributing to Atharva Society Management
 
 First off, thank you for considering contributing to this project! 🎉
 
@@ -29,12 +29,12 @@ By participating in this project, you are expected to uphold our Code of Conduct
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Society-Management-System.git
-   cd Society-Management-System
+   git clone https://github.com/SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System.git
+   cd Atharva-Society-AI-Powered-Smart-Society-Management-System
    ```
 3. **Add upstream remote**:
    ```bash
-   git remote add upstream https://github.com/AAYUSH412/Society-Management-System.git
+   git remote add upstream https://github.com/SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System.git
    ```
 
 ## 🛠️ Development Setup
@@ -83,7 +83,7 @@ By participating in this project, you are expected to uphold our Code of Conduct
 ## 📁 Project Structure
 
 ```
-Society_Management/
+Atharva-Society-AI-Powered-Smart-Society-Management-System/
 ├── client/                 # Next.js 14 frontend
 │   ├── src/
 │   │   ├── app/           # App Router pages
@@ -188,44 +188,6 @@ refactor(api): simplify error handling middleware
 - Prefer functional components with hooks
 - Use meaningful variable and function names
 
-### React/Next.js
-
-```tsx
-// ✅ Good
-export function UserCard({ user }: { user: User }) {
-  return (
-    <Card>
-      <CardContent>
-        <h3>{user.name}</h3>
-      </CardContent>
-    </Card>
-  );
-}
-
-// ❌ Bad
-export default function(props) {
-  return <div>{props.user.name}</div>
-}
-```
-
-### API Endpoints
-
-- Use RESTful conventions
-- Return consistent response format:
-  ```json
-  {
-    "success": true,
-    "data": {},
-    "message": "Success message"
-  }
-  ```
-
-### CSS/Tailwind
-
-- Use Tailwind CSS utility classes
-- Follow mobile-first approach
-- Group related classes together
-
 ## 🧪 Testing
 
 ### Running Tests
@@ -248,14 +210,9 @@ cd server && node --check server.js
 
 ## 🆘 Need Help?
 
-- **Questions?** Open a [Discussion](https://github.com/AAYUSH412/Society-Management-System/discussions)
-- **Found a bug?** Open an [Issue](https://github.com/AAYUSH412/Society-Management-System/issues)
+- **Questions & Issues?** Open an Issue or Pull Request on our [GitHub Repository](https://github.com/SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System).
 - **Security issue?** See [SECURITY.md](./SECURITY.md)
 
 ## 🙏 Thank You!
 
 Your contributions help make this project better for everyone. We appreciate your time and effort!
-
----
-
-Made with ❤️ by [Aayush Vaghela](https://github.com/AAYUSH412)

@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FLAT_NUMBERS } from '@/lib/constants';
+import { FLAT_NUMBERS, SOCIETY_NAME } from '@/lib/constants';
 import api from '@/lib/api';
 
 export default function ManagerSetupPage() {
@@ -144,7 +144,7 @@ export default function ManagerSetupPage() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">Manager Setup</CardTitle>
         <CardDescription className="text-center">
-          Set up the first manager account for Rajarshi Darshan
+          Set up the first manager account for {SOCIETY_NAME}
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>

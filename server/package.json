@@ -1,7 +1,7 @@
 {
-  "name": "rajarshi-darshan-server",
+  "name": "ai-society-management-server",
   "version": "1.0.0",
-  "description": "Backend API for Rajarshi Darshan Society Management System",
+  "description": "Backend API for Atharva Society - AI-Powered Smart Society Management System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,9 +11,9 @@
     "seed:clear": "node scripts/seedData.js --clear",
     "seed:reset": "node scripts/seedData.js --reset"
   },
-  "keywords": ["society", "management", "express", "mongodb"],
-  "author": "Aayush Vaghela",
-  "license": "ISC",
+  "keywords": ["society", "management", "express", "mongodb", "atharva-society"],
+  "author": "Group 24",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@getbrevo/brevo": "^3.0.1",

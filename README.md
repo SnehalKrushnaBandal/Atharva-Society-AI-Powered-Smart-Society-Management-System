@@ -1,192 +1,154 @@
-<p align="center">
-  <img src="https://ik.imagekit.io/xh3awoalr/Portfolio/Manager_Thumbnail.png" alt="Society Management System" width="600" />
-</p>
+# 🏢 Atharva Society — AI-Powered Smart Society Management System
 
-<h1 align="center">🏢 Rajarshi Darshan Society Management System</h1>
-
-<p align="center">
-  <strong>A comprehensive full-stack society management web application</strong>
-</p>
-
-<p align="center">
-  <a href="https://society-management-system-vert.vercel.app/showcase">
-    <img src="https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel" alt="Live Demo" />
-  </a>
-  <a href="https://society-management-system-zjlf.onrender.com">
-    <img src="https://img.shields.io/badge/API-Render-46E3B7?style=for-the-badge&logo=render" alt="API Server" />
-  </a>
-  <a href="https://github.com/AAYUSH412/Society-Management-System">
-    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github" alt="GitHub" />
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js" alt="Next.js" />
-  <img src="https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express" alt="Express.js" />
-  <img src="https://img.shields.io/badge/MongoDB-7.x-47A248?style=flat-square&logo=mongodb" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Tailwind%20CSS-3.x-06B6D4?style=flat-square&logo=tailwindcss" alt="Tailwind CSS" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
-</p>
+[![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-4.x-000000?style=for-the-badge&logo=express)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7.x-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
+[![License-MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
 ---
 
-## 📖 Overview
+## 📖 Project Overview
 
-A complete society management solution for **Rajarshi Darshan** housing society (~40 flats). Built with modern technologies, this system streamlines daily operations including:
+**Atharva Society** is a comprehensive, production-ready full-stack web application designed for intelligent residential community operations and management. The system simplifies day-to-day operations for residents, committee members, administrators, and security staff through automated maintenance collection, real-time lift emergency dispatch alerts, role-scoped management, asset tracking, and gate visitor logs.
 
-- 💳 **Maintenance Collection** - ₹1000/month with Razorpay UPI/Card payments
-- 🚨 **Lift Emergency Alerts** - One-click emergency notification to all residents
-- 📝 **Complaints Management** - File and track complaints with image uploads
-- 🔧 **Asset Tracking** - Monitor lifts, water pumps, generators with service history
-- 🚪 **Watchman Portal** - Gate log and visitor management system
+This repository serves as the baseline platform for our **BE Final Year Project**, laying the groundwork for upcoming artificial intelligence (AI) enhancements such as automated NLP complaint classification, RAG-based resident AI assistance, and predictive asset maintenance.
 
-## 🖥️ Live Demo
+---
 
-| Platform | URL |
-|----------|-----|
-| 🌐 **Frontend** | [society-management-system-vert.vercel.app](https://society-management-system-vert.vercel.app/showcase) |
-| 🔗 **Backend API** | [society-management-system-zjlf.onrender.com](https://society-management-system-zjlf.onrender.com) |
+## 👥 Project Information & Team
 
-## 🎬 Video Demos
+- **Project Title:** AI-Powered Smart Society Management System
+- **Brand Identity:** Atharva Society
+- **Tagline:** Intelligent Society Management
+- **Academic Project:** BE Final Year Project
+- **Team:** Group 24
+  - **Snehal Bandal**
+  - **Shruti Gijbile**
+  - **Komal Kamble**
 
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <a href="https://ik.imagekit.io/xh3awoalr/Portfolio/Manager_Screen_Recording.mp4">
-        <img src="https://ik.imagekit.io/xh3awoalr/Portfolio/Manager_Thumbnail.png" alt="Manager Demo" width="200" /><br/>
-        <strong>Manager Dashboard</strong>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://ik.imagekit.io/xh3awoalr/Portfolio/Resident_Screen_Recording.mp4">
-        <img src="https://ik.imagekit.io/xh3awoalr/Portfolio/Resident_Thumbnail.png" alt="Resident Demo" width="200" /><br/>
-        <strong>Resident Portal</strong>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://ik.imagekit.io/xh3awoalr/Portfolio/Watchman_Screen_Recording.mp4">
-        <img src="https://ik.imagekit.io/xh3awoalr/Portfolio/Watchman_Thumbanail.png" alt="Watchman Demo" width="200" /><br/>
-        <strong>Watchman Portal</strong>
-      </a>
-    </td>
-  </tr>
-</table>
+---
 
-## 🛠️ Tech Stack
+## 🎯 Objectives
 
-### Frontend
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 14** | React framework with App Router |
-| **TypeScript** | Type-safe development |
-| **Tailwind CSS** | Utility-first styling |
-| **shadcn/ui** | Accessible UI components |
-| **Axios** | HTTP client |
+1. **Streamline Maintenance Payments:** Provide seamless digital collection via UPI and cards with automated billing, late fee calculation, and PDF receipts.
+2. **Instant Emergency Response:** Enable one-click emergency triggers for critical incidents (e.g., stuck lift) with instant notifications to all residents and security staff.
+3. **Transparent Complaint Resolution:** Offer a structured pipeline for residents to file complaints with image uploads and track resolution status in real-time.
+4. **Enhanced Security Management:** Provide security personnel with a mobile-optimized gate portal for real-time visitor entry/exit tracking.
+5. **Prepare for AI Integration:** Establish a clean, modular architecture ready for integrating Intelligent AI Assistants, NLP, and OCR.
 
-### Backend
-| Technology | Purpose |
-|------------|---------|
-| **Express.js 4.x** | REST API server |
-| **Node.js 20.x** | JavaScript runtime |
-| **MongoDB Atlas** | NoSQL database |
-| **Mongoose 8.x** | ODM for MongoDB |
-| **node-cron** | Scheduled jobs |
+---
 
-### Services
-| Service | Purpose |
-|---------|---------|
-| **Razorpay** | Payment gateway (UPI/Cards) |
-| **Brevo** | Transactional emails |
-| **ImageKit** | Image CDN & uploads |
-| **JWT** | Authentication |
-| **bcrypt** | Password hashing |
+## ⚡ Key Features
 
-### Deployment
-| Platform | Service |
-|----------|---------|
-| **Vercel** | Frontend hosting |
-| **Render** | Backend hosting (Docker) |
-| **MongoDB Atlas** | Database hosting |
+- 💳 **Maintenance Collection:** Monthly auto-invoicing (₹1000/month) with Razorpay integration (UPI, Credit/Debit cards, Net Banking), ₹100 late fee rules, and auto-generated PDF receipts.
+- 🚨 **Emergency SOS System:** One-click emergency trigger alerting all residents and management via real-time dashboard banners and email notifications.
+- 📝 **Complaints Tracking:** Resident complaint submission with image uploads, status updates (*Open → In Progress → Resolved*), and email notifications.
+- 🔧 **Asset Management:** Monitor society equipment (lifts, water pumps, generators) with complete maintenance logs and technician status tracking.
+- 🚪 **Watchman Gate Portal:** Mobile-first interface for security guards to log incoming/outgoing visitors, vehicle numbers, and view emergency alerts.
+- 📧 **Automated Email Notifications:** Transactional emails powered by Brevo for payment reminders, receipts, OTP password resets, and emergency alerts.
 
-## 📁 Project Structure
+---
 
-```
-Society_Management/
-├── client/                    # Next.js 14 Frontend
+## 🛠️ Technology Stack
+
+### Frontend (`client/`)
+- **Next.js 14** (App Router & React Server/Client Components)
+- **TypeScript** (Type safety across UI components and API callers)
+- **Tailwind CSS & shadcn/ui** (Utility-first styling & accessible Radix primitives)
+- **Axios** (Configured with credentials support)
+- **jsPDF** (Client-side payment receipt PDF generation)
+
+### Backend (`server/`)
+- **Express.js 4.x** (RESTful API architecture)
+- **Node.js 20.x** (Async JavaScript runtime)
+- **MongoDB Atlas & Mongoose 8.x** (NoSQL document store & ODM)
+- **node-cron** (Scheduled automated billing & late fee processing)
+- **Brevo API (formerly Sendinblue)** (Transactional email engine)
+- **ImageKit API** (Image CDN and file upload storage)
+- **JWT & bcryptjs** (Secure cookie-based authentication & password hashing)
+
+---
+
+## 📁 Repository Structure
+
+```text
+Atharva-Society-AI-Powered-Smart-Society-Management-System/
+├── client/                     # Next.js 14 Frontend Application
 │   ├── src/
-│   │   ├── app/              # App Router pages
-│   │   ├── components/       # React components
-│   │   ├── context/          # Auth context
-│   │   ├── hooks/            # Custom hooks
-│   │   ├── lib/              # Utilities
-│   │   └── types/            # TypeScript types
+│   │   ├── app/               # App Router pages (Auth, Dashboard, Admin, Watchman)
+│   │   ├── components/        # UI primitives & domain widgets (Navbar, Sidebar, etc.)
+│   │   ├── context/           # AuthContext & state providers
+│   │   ├── hooks/             # Custom React hooks (useAuth, useEmergency, etc.)
+│   │   ├── lib/               # Utility functions, API config, receipt generator
+│   │   ├── middleware.ts      # Client route protection
+│   │   └── types/             # Shared TypeScript definitions
 │   └── package.json
 │
-├── server/                    # Express.js Backend
-│   ├── config/               # DB, services config
-│   ├── controllers/          # Route handlers
-│   ├── middleware/           # Auth, error middleware
-│   ├── models/               # Mongoose schemas
-│   ├── routes/               # API routes
-│   ├── services/             # Email, upload services
-│   ├── jobs/                 # Cron jobs
+├── server/                     # Node.js + Express REST API Backend
+│   ├── config/                # Database connection & service clients (Brevo, Razorpay, ImageKit)
+│   ├── controllers/           # API business logic handlers
+│   ├── jobs/                  # Scheduled cron tasks (invoicing, late fees)
+│   ├── middleware/            # Auth verification & error handling
+│   ├── models/                # Mongoose schemas (User, Maintenance, Complaint, etc.)
+│   ├── routes/                # Express route endpoints
+│   ├── scripts/               # Database seeder scripts
+│   ├── services/              # Email & file upload service wrappers
+│   ├── templates/             # HTML templates (API status landing page)
+│   ├── server.js              # Server entrypoint
 │   └── package.json
 │
-├── .github/                   # GitHub Actions
-│   └── workflows/
-│       ├── ci.yml            # CI pipeline
-│       └── deploy.yml        # Deployment workflow
-│
-├── docker-compose.yml         # Docker setup
-├── ARCHITECTURE.md            # System design
-├── CONTRIBUTING.md            # Contribution guide
-├── SECURITY.md                # Security policy
-└── LICENSE                    # MIT License
+├── docker-compose.yml          # Container configuration
+├── render.yaml                 # Deployment blueprint for Render
+├── ARCHITECTURE.md             # In-depth architectural specification
+├── SECURITY.md                 # Security reporting policy
+└── LICENSE                     # MIT License
 ```
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-
 - **Node.js** 20.x LTS or higher
 - **npm** 10.x or higher
-- **MongoDB Atlas** account
-- **Razorpay** account
-- **Brevo** account
-- **ImageKit** account
+- **MongoDB Atlas** database URI
+- API Keys for **Razorpay**, **Brevo**, and **ImageKit**
 
-### Installation
+### Installation & Setup
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/AAYUSH412/Society-Management-System.git
-   cd Society-Management-System
+   git clone https://github.com/SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System.git
+   cd Atharva-Society-AI-Powered-Smart-Society-Management-System
    ```
 
 2. **Install dependencies**
    ```bash
-   # Install client dependencies
-   cd client && npm install
+   # Install Frontend dependencies
+   cd client
+   npm install
 
-   # Install server dependencies
-   cd ../server && npm install
+   # Install Backend dependencies
+   cd ../server
+   npm install
    ```
 
-3. **Configure environment variables**
+3. **Configure Environment Variables**
 
-   **Server** (`server/.env.local`):
+   Create `server/.env` based on `server/.env.example`:
    ```env
    NODE_ENV=development
    PORT=4000
-   MONGODB_URI=mongodb+srv://...
-   JWT_SECRET=your_jwt_secret
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/atharva_society
+   JWT_SECRET=your_super_secret_jwt_key
    JWT_EXPIRES_IN=7d
    RAZORPAY_KEY_ID=rzp_test_xxxx
    RAZORPAY_KEY_SECRET=xxxx
    BREVO_API_KEY=xkeysib-xxxx
-   BREVO_SENDER_EMAIL=noreply@domain.com
-   BREVO_SENDER_NAME=Rajarshi Darshan Society
+   BREVO_SENDER_EMAIL=noreply@atharvasociety.com
+   BREVO_SENDER_NAME=Atharva Society
    IMAGEKIT_PUBLIC_KEY=public_xxxx
    IMAGEKIT_PRIVATE_KEY=private_xxxx
    IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/xxxx
@@ -194,7 +156,7 @@ Society_Management/
    OTP_EXPIRY_MINUTES=10
    ```
 
-   **Client** (`client/.env.local`):
+   Create `client/.env.local`:
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:4000/api
    NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_xxxx
@@ -202,182 +164,46 @@ Society_Management/
    NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/xxxx
    ```
 
-4. **Start development servers**
+4. **Run Development Servers**
    ```bash
-   # Terminal 1 - Backend (Port 4000)
-   cd server && npm run dev
+   # Terminal 1: Backend API (Port 4000)
+   cd server
+   npm run dev
 
-   # Terminal 2 - Frontend (Port 3000)
-   cd client && npm run dev
+   # Terminal 2: Next.js Frontend (Port 3000)
+   cd client
+   npm run dev
    ```
 
-5. **Open in browser**
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - Backend API: [http://localhost:4000](http://localhost:4000)
-
-## 👥 User Roles & Permissions
-
-| Role | Permissions |
-|------|-------------|
-| **Manager** | Full access, user management, assign admin roles, view all data |
-| **Admin** | Manage complaints, emergencies, view payments, asset tracking |
-| **Resident** | Pay maintenance, file complaints, trigger emergency, view own data |
-| **Watchman** | Gate log management, emergency alerts, mobile-first interface |
-
-## ✨ Features
-
-### 💳 Maintenance Payments
-- Automated monthly maintenance generation (₹1000/month)
-- ₹100 late fee after 18 days
-- Razorpay integration (UPI, Cards, Net Banking)
-- Payment reminders via email (Day 1, 10, 16)
-- Payment history and receipts
-
-### 🚨 Emergency System
-- One-click lift emergency button
-- Instant email notification to ALL users
-- Real-time emergency status dashboard
-- Resolution tracking with timestamps
-
-### 📝 Complaints Management
-- File complaints with image upload
-- Status tracking (Open → In Progress → Resolved)
-- Email notifications on status change
-- Admin/Manager resolution panel
-
-### 🔧 Asset Tracking
-- Track lifts, water pumps, generators
-- Service history logging
-- Status monitoring (Working/Under Maintenance/Not Working)
-- Technician and service notes
-
-### 🚪 Watchman Portal
-- Mobile-first design
-- Visitor entry/exit logging
-- Vehicle number tracking
-- Purpose of visit recording
-- Emergency alert access
-
-## 🔗 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | User login |
-| POST | `/api/auth/logout` | User logout |
-| GET | `/api/auth/me` | Get current user |
-| POST | `/api/auth/forgot-password` | Send OTP |
-| POST | `/api/auth/reset-password` | Reset password |
-
-### Maintenance
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/maintenance` | Get maintenance records |
-| GET | `/api/maintenance/:id` | Get single record |
-| POST | `/api/payment/create-order` | Create Razorpay order |
-| POST | `/api/payment/verify` | Verify payment |
-
-### Emergency
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/emergency/trigger` | Trigger emergency |
-| GET | `/api/emergency/active` | Get active emergencies |
-| PUT | `/api/emergency/:id/resolve` | Resolve emergency |
-
-### Complaints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/complaints` | Create complaint |
-| GET | `/api/complaints` | Get complaints |
-| PUT | `/api/complaints/:id` | Update status |
-
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for complete API documentation.
-
-## 📧 Email Notifications
-
-| Event | Recipients | Timing |
-|-------|------------|--------|
-| Maintenance Invoice | Resident | 1st of month |
-| Payment Reminder | Resident | Day 10, 16 |
-| Late Fee Warning | Resident | Day 16 |
-| Payment Confirmation | Resident | On payment |
-| Emergency Alert | All users | Immediately |
-| Emergency Resolved | All users | On resolution |
-| Complaint Status | Resident | On change |
-| Password Reset OTP | User | On request |
-
-## 🐳 Docker Development
-
-```bash
-# Build and start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Rebuild after changes
-docker-compose up -d --build
-```
-
-## 🚀 Deployment
-
-### Frontend (Vercel)
-
-1. Push code to GitHub
-2. Import project in [Vercel](https://vercel.com)
-3. Set Root Directory: `client`
-4. Add environment variables
-5. Deploy
-
-### Backend (Render)
-
-1. Push code to GitHub
-2. Create Web Service in [Render](https://render.com)
-3. Set Root Directory: `server`
-4. Runtime: Docker
-5. Add environment variables
-6. Deploy
-
-See detailed deployment guide in the docs.
-
-## 🔐 Security
-
-- JWT authentication with httpOnly cookies
-- bcrypt password hashing (10 rounds)
-- CORS protection with whitelisted origins
-- Helmet security headers
-- Input validation with express-validator
-- Rate limiting on auth routes
-- Environment variable secrets
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Aayush Vaghela**
-
-- Portfolio: [aayush-vaghela.vercel.app](https://aayush-vaghela.vercel.app)
-- GitHub: [@AAYUSH412](https://github.com/AAYUSH412)
-- LinkedIn: [Aayush Vaghela](https://linkedin.com/in/aayush-vaghela)
+5. **Access Application**
+   - Frontend Web App: [http://localhost:3000](http://localhost:3000)
+   - Backend API Health: [http://localhost:4000/api/health](http://localhost:4000/api/health)
 
 ---
 
-<p align="center">
-  Made with ❤️ by Aayush Vaghela
-</p>
+## 👥 User Roles & Permissions
+
+| Role | Access Scope |
+|------|--------------|
+| **Manager** | Full administrative access, user role assignments, view all society payments/complaints/assets. |
+| **Admin** | Management operations: resolve complaints, manage emergencies, view maintenance payments & asset logs. |
+| **Resident** | Personal dashboard: pay maintenance dues, download receipts, file complaints, trigger emergency alerts. |
+| **Watchman** | Security portal: mobile-first gate visitor entry/exit logging and instant emergency alert access. |
+
+---
+
+## 🔮 Future Scope (Planned AI Enhancements)
+
+Our project roadmap includes integrating specialized AI microservices:
+
+1. **RAG-based Society AI Assistant:** Interactive chatbot trained on society bylaws, maintenance policies, and community announcements to answer resident queries in real-time.
+2. **NLP Complaint Triaging:** Automatic sentiment and urgency classification for submitted complaints to automatically prioritize high-urgency issues (e.g., water leaks or electrical hazards).
+3. **OCR Document & Gate Security:** Automated vehicle license plate and visitor ID extraction from images to speed up security logging at the main gate.
+4. **Predictive Equipment Maintenance:** Machine learning insights based on historical asset service logs to forecast equipment failure before breakdowns occur.
+
+---
+
+## 📄 License & Attribution
+
+This project is licensed under the [MIT License](./LICENSE).
+*Original base framework built by Aayush Vaghela; customized, rebranded, and extended by Group 24 for BE Final Year Project.*

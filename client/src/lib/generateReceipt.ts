@@ -40,25 +40,25 @@ export const generateReceiptPDF = (data: ReceiptData) => {
   let y = 20;
 
   // ===== HEADER =====
-  doc.setFillColor(37, 99, 235);
+  doc.setFillColor(15, 118, 110);
   doc.rect(0, 0, pageWidth, 45, 'F');
   
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22);
   doc.setFont('helvetica', 'bold');
-  doc.text('RAJARSHI DARSHAN', pageWidth / 2, 20, { align: 'center' });
+  doc.text('ATHARVA SOCIETY', pageWidth / 2, 20, { align: 'center' });
   
   doc.setFontSize(11);
   doc.setFont('helvetica', 'normal');
-  doc.text('Society Management System', pageWidth / 2, 30, { align: 'center' });
+  doc.text('AI-Powered Smart Society Management System', pageWidth / 2, 30, { align: 'center' });
   
   doc.setFontSize(9);
-  doc.text('Ahmedabad, Gujarat, India', pageWidth / 2, 38, { align: 'center' });
+  doc.text('Smart Residential Community Portal', pageWidth / 2, 38, { align: 'center' });
 
   y = 60;
 
   // ===== RECEIPT TITLE =====
-  doc.setTextColor(37, 99, 235);
+  doc.setTextColor(15, 118, 110);
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
   doc.text('PAYMENT RECEIPT', pageWidth / 2, y, { align: 'center' });
@@ -78,7 +78,7 @@ export const generateReceiptPDF = (data: ReceiptData) => {
   doc.text('Receipt No:', margin + 5, y + 10);
   doc.setTextColor(31, 41, 55);
   doc.setFont('helvetica', 'bold');
-  const receiptNo = `RD-${data.year}${String(data.month).padStart(2, '0')}-${data.transactionId.slice(-6).toUpperCase()}`;
+  const receiptNo = `AS-${data.year}${String(data.month).padStart(2, '0')}-${data.transactionId.slice(-6).toUpperCase()}`;
   doc.text(receiptNo, margin + 5, y + 18);
   
   // Right side - Date
@@ -227,7 +227,7 @@ export const generateReceiptPDF = (data: ReceiptData) => {
   doc.text('This is a computer-generated receipt and does not require a signature.', pageWidth / 2, y, { align: 'center' });
   
   y += 6;
-  doc.text('For queries, contact: rajarshidarshan@gmail.com', pageWidth / 2, y, { align: 'center' });
+  doc.text('For queries, contact support at Atharva Society Management', pageWidth / 2, y, { align: 'center' });
   
   y += 10;
   doc.setFontSize(7);

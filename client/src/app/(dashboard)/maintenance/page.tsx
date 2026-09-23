@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import api from '@/lib/api';
 import { Maintenance, PaymentLog } from '@/types';
+import { SOCIETY_NAME } from '@/lib/constants';
 import {
   Table,
   TableBody,
@@ -176,7 +177,7 @@ export default function MaintenancePage() {
         key: orderData.key_id,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: 'Rajarshi Darshan Society',
+        name: SOCIETY_NAME,
         description: `Maintenance for ${getMonthName(orderData.maintenance.month)} ${orderData.maintenance.year}`,
         order_id: orderData.order_id,
         handler: async (response: RazorpayResponse) => {

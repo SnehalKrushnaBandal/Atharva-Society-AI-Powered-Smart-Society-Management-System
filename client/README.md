@@ -1,6 +1,6 @@
 # 🖥️ Society Management - Frontend
 
-The Next.js 14 frontend for Rajarshi Darshan Society Management System.
+The Next.js 14 frontend for Atharva Society Management System.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js" alt="Next.js" />
@@ -11,7 +11,7 @@ The Next.js 14 frontend for Rajarshi Darshan Society Management System.
 
 ## 🚀 Live Demo
 
-**Production URL:** [society-management-system-vert.vercel.app](https://society-management-system-vert.vercel.app)
+**Production URL:** Not deployed yet
 
 ## 📁 Project Structure
 

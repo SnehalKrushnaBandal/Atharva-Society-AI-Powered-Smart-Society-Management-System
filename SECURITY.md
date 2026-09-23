@@ -2,7 +2,7 @@
 
 ## 🔒 Reporting a Vulnerability
 
-We take the security of Rajarshi Darshan Society Management seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take the security of Atharva Society Management seriously. If you believe you have found a security vulnerability, please report it to us as described below.
 
 ### ⚠️ Please Do NOT
 
@@ -12,7 +12,9 @@ We take the security of Rajarshi Darshan Society Management seriously. If you be
 
 ### ✅ Please DO
 
-1. **Email the maintainer directly** at: aayushvaghela12@gmail.com
+1. **Report via GitHub Security Advisories or Repository Maintainers**:
+   - Submit a report via private vulnerability reporting on our GitHub repository: [SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System](https://github.com/SnehalKrushnaBandal/Atharva-Society-AI-Powered-Smart-Society-Management-System)
+   - Or contact project maintainers (Group 24) through repository channels.
 2. **Include in your report**:
    - Type of vulnerability
    - Steps to reproduce
@@ -145,4 +147,4 @@ We thank the following for responsibly disclosing vulnerabilities:
 
 ---
 
-Thank you for helping keep Rajarshi Darshan Society Management and its users safe!
+Thank you for helping keep Atharva Society Management and its users safe!

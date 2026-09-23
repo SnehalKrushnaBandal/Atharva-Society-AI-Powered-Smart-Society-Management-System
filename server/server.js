@@ -45,7 +45,7 @@ app.use(cookieParser()); // Parse cookies
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     status: 'ok', 
-    message: 'Rajarshi Darshan Society Management API is running',
+    message: 'Atharva Society Management API is running',
     timestamp: new Date().toISOString()
   });
 });

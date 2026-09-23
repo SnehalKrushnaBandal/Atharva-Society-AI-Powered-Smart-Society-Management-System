@@ -1,6 +1,6 @@
 # 🔧 Society Management - Backend API
 
-The Express.js REST API backend for Rajarshi Darshan Society Management System.
+The Express.js REST API backend for Atharva Society Management System.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Express.js-4.x-000000?style=flat-square&logo=express" alt="Express.js" />
@@ -11,9 +11,9 @@ The Express.js REST API backend for Rajarshi Darshan Society Management System.
 
 ## 🚀 Live API
 
-**Production URL:** [society-management-system-zjlf.onrender.com](https://society-management-system-zjlf.onrender.com)
+**Production URL:** Not deployed yet
 
-**Health Check:** [/api/health](https://society-management-system-zjlf.onrender.com/api/health)
+**Local Health Check:** [http://localhost:4000/api/health](http://localhost:4000/api/health)
 
 ## 📁 Project Structure
 
@@ -129,7 +129,7 @@ server/
    # Brevo
    BREVO_API_KEY=xkeysib-xxxx
    BREVO_SENDER_EMAIL=noreply@domain.com
-   BREVO_SENDER_NAME=Rajarshi Darshan Society
+   BREVO_SENDER_NAME=Atharva Society
    
    # ImageKit
    IMAGEKIT_PUBLIC_KEY=public_xxxx

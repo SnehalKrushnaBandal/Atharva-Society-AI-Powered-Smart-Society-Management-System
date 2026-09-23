@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
-import { SOCIETY_NAME } from '@/lib/constants';
+import { SOCIETY_NAME, SOCIETY_TAGLINE } from '@/lib/constants';
 import {
   LayoutDashboard,
   CreditCard,
@@ -17,6 +17,7 @@ import {
   Settings,
   Home,
   Shield,
+  Sparkles,
   MoreHorizontal,
   X,
 } from 'lucide-react';
@@ -64,7 +65,7 @@ export default function Sidebar() {
         {/* User Badge */}
         <div className="p-4 border-b border-slate-700/50">
           <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-xl">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 flex items-center justify-center">
               <span className="text-white font-semibold text-sm">
                 {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
               </span>
@@ -74,7 +75,7 @@ export default function Sidebar() {
               <p className="text-slate-400 text-xs">Flat {user?.flat_no}</p>
             </div>
             {isAdmin && (
-              <Shield className="w-4 h-4 text-blue-400 flex-shrink-0" />
+              <Shield className="w-4 h-4 text-teal-400 flex-shrink-0" />
             )}
           </div>
         </div>
@@ -92,7 +93,7 @@ export default function Sidebar() {
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
                   pathname === item.href
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                    ? 'bg-teal-700 text-white shadow-lg shadow-teal-900/30'
                     : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 )}
               >
@@ -116,7 +117,7 @@ export default function Sidebar() {
                     className={cn(
                       'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
                       pathname === item.href
-                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                        ? 'bg-teal-700 text-white shadow-lg shadow-teal-900/30'
                         : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                     )}
                   >
@@ -131,9 +132,14 @@ export default function Sidebar() {
 
         {/* Sidebar Footer */}
         <div className="p-4 border-t border-slate-700/50">
-          <div className="p-3 bg-gradient-to-r from-blue-600/20 to-slate-800 rounded-xl">
-            <p className="text-slate-300 text-xs font-medium">{SOCIETY_NAME}</p>
-            <p className="text-slate-500 text-xs mt-0.5">Management System</p>
+          <div className="p-3 bg-gradient-to-r from-teal-900/40 to-slate-800 rounded-xl flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-teal-600/30 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-4 h-4 text-teal-400" />
+            </div>
+            <div>
+              <p className="text-slate-200 text-xs font-semibold">{SOCIETY_NAME}</p>
+              <p className="text-slate-400 text-[10px] mt-0.5">{SOCIETY_TAGLINE}</p>
+            </div>
           </div>
         </div>
       </aside>

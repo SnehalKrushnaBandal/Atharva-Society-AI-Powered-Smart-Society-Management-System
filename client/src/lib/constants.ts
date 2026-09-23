@@ -48,8 +48,9 @@ export const ASSET_STATUS = {
 } as const;
 
 // Society Info
-export const SOCIETY_NAME = 'Rajarshi Darshan';
-export const SOCIETY_TAGLINE = 'Society Management';
+export const SOCIETY_NAME = 'Atharva Society';
+export const SOCIETY_TAGLINE = 'Intelligent Society Management';
+export const PROJECT_FULL_NAME = 'AI-Powered Smart Society Management System';
 
 // Flat numbers list (4 floors, 10 flats each)
 export const FLAT_NUMBERS = [
