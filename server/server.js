@@ -17,6 +17,9 @@ const emergencyRoutes = require('./routes/emergency.routes');
 const complaintRoutes = require('./routes/complaint.routes');
 const gatelogRoutes = require('./routes/gatelog.routes');
 const assetRoutes = require('./routes/asset.routes');
+const serviceRoutes = require('./routes/service.routes');
+const noticeRoutes = require('./routes/notice.routes');
+const eventRoutes = require('./routes/event.routes');
 
 // Import cron jobs
 const initCronJobs = require('./jobs');
@@ -71,6 +74,9 @@ app.use('/api/emergency', emergencyRoutes);
 app.use('/api/complaints', complaintRoutes);
 app.use('/api/gatelog', gatelogRoutes);
 app.use('/api/assets', assetRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/notices', noticeRoutes);
+app.use('/api/events', eventRoutes);
 
 // 404 handler
 app.use((req, res, next) => {

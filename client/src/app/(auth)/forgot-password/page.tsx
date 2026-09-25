@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { Mail, KeyRound, Lock, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import api from '@/lib/api';
 
 type Step = 'email' | 'otp' | 'password' | 'success';
 
@@ -52,22 +52,15 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message || 'OTP sent to your email');
+      const response = await api.post('/auth/forgot-password', { email });
+      if (response.data.success) {
+        setMessage(response.data.message || 'OTP sent to your email');
         setStep('otp');
       } else {
-        setError(data.message || 'Failed to send OTP');
+        setError(response.data.message || 'Failed to send OTP');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -87,23 +80,16 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setResetToken(data.resetToken);
+      const response = await api.post('/auth/verify-otp', { email, otp });
+      if (response.data.success && response.data.data?.resetToken) {
+        setResetToken(response.data.data.resetToken);
         setMessage('OTP verified successfully');
         setStep('password');
       } else {
-        setError(data.message || 'Invalid or expired OTP');
+        setError(response.data.message || 'Invalid or expired OTP');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -133,21 +119,20 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/reset-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ resetToken, newPassword })
+      const response = await api.post('/auth/reset-password', {
+        email,
+        resetToken,
+        newPassword,
+        confirmPassword
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.data.success) {
         setStep('success');
       } else {
-        setError(data.message || 'Failed to reset password');
+        setError(response.data.message || 'Failed to reset password');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Network error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -160,22 +145,15 @@ export default function ForgotPasswordPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
+      const response = await api.post('/auth/forgot-password', { email });
+      if (response.data.success) {
         setMessage('New OTP sent to your email');
         setOtp('');
       } else {
-        setError(data.message || 'Failed to resend OTP');
+        setError(response.data.message || 'Failed to resend OTP');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Network error. Please try again.');
     } finally {
       setLoading(false);
     }

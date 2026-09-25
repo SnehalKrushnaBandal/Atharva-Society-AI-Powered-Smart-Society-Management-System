@@ -175,12 +175,24 @@ exports.createWatchman = async (req, res, next) => {
       });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedPhone = phone.trim();
+
     // Check if email already exists
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'Email already registered'
+        message: 'This email is already registered.'
+      });
+    }
+
+    // Check if phone number already exists
+    const existingPhone = await User.findOne({ phone: normalizedPhone });
+    if (existingPhone) {
+      return res.status(400).json({
+        success: false,
+        message: 'This mobile number is already registered.'
       });
     }
 
@@ -190,8 +202,8 @@ exports.createWatchman = async (req, res, next) => {
     // Create watchman user
     const watchman = await User.create({
       name,
-      email: email.toLowerCase(),
-      phone,
+      email: normalizedEmail,
+      phone: normalizedPhone,
       role: 'watchman',
       password_hash: tempPassword, // Will be hashed by pre-save hook
       is_verified: true
@@ -206,6 +218,15 @@ exports.createWatchman = async (req, res, next) => {
       }
     });
   } catch (error) {
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern || {})[0];
+      if (field === 'email') {
+        return res.status(400).json({ success: false, message: 'This email is already registered.' });
+      }
+      if (field === 'phone') {
+        return res.status(400).json({ success: false, message: 'This mobile number is already registered.' });
+      }
+    }
     next(error);
   }
 };

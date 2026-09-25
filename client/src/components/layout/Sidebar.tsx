@@ -20,6 +20,9 @@ import {
   Sparkles,
   MoreHorizontal,
   X,
+  Building2,
+  Wrench,
+  Bell,
 } from 'lucide-react';
 
 interface NavItem {
@@ -31,8 +34,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
+  { href: '/notices', label: 'Notices & Events', icon: <Bell className="w-5 h-5" /> },
   { href: '/maintenance', label: 'Maintenance', icon: <CreditCard className="w-5 h-5" /> },
   { href: '/complaints', label: 'My Complaints', icon: <MessageSquare className="w-5 h-5" /> },
+  { href: '/assets', label: 'Society Assets', icon: <Building2 className="w-5 h-5" /> },
+  { href: '/services', label: 'Society Services', icon: <Wrench className="w-5 h-5" /> },
   { href: '/emergency', label: 'Emergency', icon: <AlertTriangle className="w-5 h-5" /> },
 ];
 

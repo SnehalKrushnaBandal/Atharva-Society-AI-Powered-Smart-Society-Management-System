@@ -44,7 +44,28 @@ const EMERGENCY_STATUS = {
 const ASSET_TYPES = {
   LIFT: 'lift',
   WATER_PUMP: 'water_pump',
-  GENERATOR: 'generator'
+  GENERATOR: 'generator',
+  CHAIRS: 'chairs',
+  TABLES: 'tables',
+  BENCHES: 'benches',
+  LIGHTS: 'lights',
+  FANS: 'fans',
+  PROJECTOR: 'projector',
+  CCTV: 'cctv',
+  FIRE_EXTINGUISHER: 'fire_extinguisher',
+  LADDER: 'ladder',
+  OTHER: 'other'
+};
+
+// Asset categories
+const ASSET_CATEGORIES = {
+  MACHINERY: 'Machinery',
+  FURNITURE: 'Furniture',
+  ELECTRONICS: 'Electronics',
+  SECURITY: 'Security',
+  SAFETY: 'Safety',
+  ELECTRICAL: 'Electrical',
+  GENERAL: 'General'
 };
 
 // Asset status
@@ -64,5 +85,6 @@ module.exports = {
   COMPLAINT_STATUS,
   EMERGENCY_STATUS,
   ASSET_TYPES,
+  ASSET_CATEGORIES,
   ASSET_STATUS
 };

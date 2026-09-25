@@ -5,7 +5,18 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAssets } from '@/hooks/useAssets';
 import { Asset } from '@/types';
-import { Settings, ArrowUpDown, Droplets, Zap, ArrowRight } from 'lucide-react';
+import {
+  Building2,
+  Droplets,
+  Zap,
+  ArrowRight,
+  Camera,
+  Flame,
+  Lightbulb,
+  Fan,
+  Tv,
+  Package,
+} from 'lucide-react';
 
 type AssetStatus = 'working' | 'under_maintenance' | 'not_working';
 
@@ -14,15 +25,30 @@ interface AssetStatusWidgetProps {
 }
 
 const assetIcons: Record<string, React.ReactNode> = {
-  lift: <ArrowUpDown className="w-4 h-4" />,
+  lift: <Building2 className="w-4 h-4" />,
   water_pump: <Droplets className="w-4 h-4" />,
   generator: <Zap className="w-4 h-4" />,
+  cctv: <Camera className="w-4 h-4" />,
+  fire_extinguisher: <Flame className="w-4 h-4" />,
+  lights: <Lightbulb className="w-4 h-4" />,
+  fans: <Fan className="w-4 h-4" />,
+  projector: <Tv className="w-4 h-4" />,
 };
 
 const assetLabels: Record<string, string> = {
   lift: 'Lift',
   water_pump: 'Water Pump',
   generator: 'Generator',
+  chairs: 'Chairs',
+  tables: 'Tables',
+  benches: 'Benches',
+  lights: 'Lights',
+  fans: 'Fans',
+  projector: 'Projector',
+  cctv: 'CCTV Camera',
+  fire_extinguisher: 'Fire Extinguisher',
+  ladder: 'Ladder',
+  other: 'Equipment',
 };
 
 const statusConfig: Record<AssetStatus, { label: string; color: string; bgColor: string; dotColor: string }> = {
@@ -82,10 +108,11 @@ export default function AssetStatusWidget({
 
   // Group assets by type for summary display
   const assetsByType = assets.reduce((acc, asset) => {
-    if (!acc[asset.type]) {
-      acc[asset.type] = [];
+    const key = asset.type || 'other';
+    if (!acc[key]) {
+      acc[key] = [];
     }
-    acc[asset.type].push(asset);
+    acc[key].push(asset);
     return acc;
   }, {} as Record<string, Asset[]>);
 
@@ -102,7 +129,7 @@ export default function AssetStatusWidget({
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-              <Settings className="w-4 h-4 text-slate-600" />
+              <Building2 className="w-4 h-4 text-slate-600" />
             </div>
             Assets
           </CardTitle>
@@ -127,7 +154,7 @@ export default function AssetStatusWidget({
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-              <Settings className="w-4 h-4 text-slate-600" />
+              <Building2 className="w-4 h-4 text-slate-600" />
             </div>
             Assets
           </CardTitle>
@@ -153,19 +180,19 @@ export default function AssetStatusWidget({
           <p className="text-sm text-gray-500 text-center py-4">No assets configured</p>
         ) : (
           <div className="space-y-2">
-            {Object.entries(assetsByType).map(([type, typeAssets]) => {
+            {Object.entries(assetsByType).slice(0, 4).map(([type, typeAssets]) => {
               const status = getTypeStatus(typeAssets);
               const config = statusConfig[status];
-              const count = typeAssets.length;
+              const totalQuantity = typeAssets.reduce((sum, a) => sum + (a.quantity || 1), 0);
               return (
                 <div
                   key={type}
                   className={`flex items-center justify-between p-2.5 rounded-lg ${config.bgColor}`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="text-slate-600">{assetIcons[type] || <Settings className="w-4 h-4" />}</div>
+                    <div className="text-slate-600">{assetIcons[type] || <Package className="w-4 h-4" />}</div>
                     <span className="text-sm font-medium text-gray-700">
-                      {assetLabels[type] || type} {count > 1 && `(${count})`}
+                      {assetLabels[type] || type} {totalQuantity > 1 && `(${totalQuantity})`}
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -180,14 +207,12 @@ export default function AssetStatusWidget({
           </div>
         )}
 
-        {isAdmin && (
-          <Link
-            href="/admin/assets"
-            className="flex items-center justify-center gap-1 text-center text-sm text-blue-600 hover:text-blue-700 font-medium mt-2"
-          >
-            Manage Assets <ArrowRight className="w-4 h-4" />
-          </Link>
-        )}
+        <Link
+          href={isAdmin ? "/admin/assets" : "/assets"}
+          className="flex items-center justify-center gap-1 text-center text-sm text-teal-600 hover:text-teal-700 font-medium mt-2"
+        >
+          {isAdmin ? 'Manage Assets' : 'View All Assets'} <ArrowRight className="w-4 h-4" />
+        </Link>
       </CardContent>
     </Card>
   );

@@ -26,14 +26,24 @@ export interface AssetResponse {
 
 export interface CreateAssetData {
   name: string;
-  type: 'lift' | 'water_pump' | 'generator';
+  type: string;
+  category?: string;
+  quantity?: number;
   status?: 'working' | 'under_maintenance' | 'not_working';
   location?: string;
+  purchase_date?: string;
+  notes?: string;
 }
 
 export interface UpdateAssetData {
   name?: string;
+  type?: string;
+  category?: string;
+  quantity?: number;
+  status?: 'working' | 'under_maintenance' | 'not_working';
   location?: string;
+  purchase_date?: string;
+  notes?: string;
 }
 
 export interface AddServiceData {
@@ -49,7 +59,9 @@ export function useAssets() {
   // Get all assets
   const getAssets = useCallback(async (
     status?: string,
-    type?: string
+    type?: string,
+    category?: string,
+    search?: string
   ): Promise<AssetsResponse> => {
     setLoading(true);
     setError(null);
@@ -57,6 +69,8 @@ export function useAssets() {
       const params = new URLSearchParams();
       if (status) params.append('status', status);
       if (type) params.append('type', type);
+      if (category) params.append('category', category);
+      if (search) params.append('search', search);
       
       const queryString = params.toString();
       const response = await api.get(`/assets${queryString ? `?${queryString}` : ''}`);

@@ -6,6 +6,7 @@ export interface User {
   phone: string;
   flat_no: string;
   role: 'manager' | 'admin' | 'resident' | 'watchman';
+  resident_type?: 'owner' | 'tenant' | null;
   is_active: boolean;
   is_verified: boolean;
   created_at: string;
@@ -33,8 +34,10 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  flat_no: string;
+  flat_no?: string;
   phone: string;
+  role?: 'resident' | 'watchman';
+  resident_type?: 'owner' | 'tenant' | null;
 }
 
 export type ManagerSetupData = RegisterData;
@@ -120,12 +123,98 @@ export interface ServiceLog {
 
 export interface Asset {
   _id: string;
-  type: 'lift' | 'water_pump' | 'generator';
   name: string;
+  type: string;
+  category?: string;
+  quantity?: number;
   status: 'working' | 'under_maintenance' | 'not_working';
   location?: string | null;
+  purchase_date?: string | null;
+  notes?: string | null;
   last_service_date?: string | null;
   services: ServiceLog[];
   createdAt: string;
   updatedAt: string;
+}
+
+// Society Service Types
+export type ServiceCategory =
+  | 'medical'
+  | 'ambulance'
+  | 'plumber'
+  | 'electrician'
+  | 'security'
+  | 'lift_technician'
+  | 'fire_safety'
+  | 'society_office'
+  | 'other';
+
+export interface SocietyService {
+  _id: string;
+  name: string;
+  category: ServiceCategory;
+  contact_person?: string | null;
+  phone?: string | null;
+  timing?: string | null;
+  description?: string | null;
+  is_emergency?: boolean;
+  is_active: boolean;
+  created_by?: string | User | null;
+  updated_by?: string | User | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// Notice Types
+export type NoticeCategory =
+  | 'maintenance'
+  | 'water_interruption'
+  | 'lift_maintenance'
+  | 'parking'
+  | 'society_meeting'
+  | 'circular'
+  | 'general';
+
+export type NoticePriority = 'low' | 'normal' | 'high' | 'urgent';
+
+export interface Notice {
+  _id: string;
+  title: string;
+  category: NoticeCategory;
+  description: string;
+  priority: NoticePriority;
+  date: string;
+  expiry_date?: string | null;
+  location?: string | null;
+  is_pinned?: boolean;
+  is_active: boolean;
+  created_by?: string | User | null;
+  updated_by?: string | User | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// Society Event Types
+export type EventCategory =
+  | 'festival'
+  | 'meeting'
+  | 'cultural'
+  | 'sports'
+  | 'celebration'
+  | 'other';
+
+export interface SocietyEvent {
+  _id: string;
+  title: string;
+  category: EventCategory;
+  description: string;
+  event_date: string;
+  event_time?: string | null;
+  location: string;
+  organizer?: string | null;
+  is_active: boolean;
+  created_by?: string | User | null;
+  updated_by?: string | User | null;
+  createdAt?: string;
+  updatedAt?: string;
 }

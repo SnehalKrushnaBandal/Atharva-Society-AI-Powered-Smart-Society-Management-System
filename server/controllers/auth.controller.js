@@ -39,13 +39,31 @@ const isValidFlatNo = (flatNo) => {
  */
 exports.register = async (req, res, next) => {
   try {
-    const { name, email, password, flat_no, phone } = req.body;
+    const { name, email, password, flat_no, phone, role, resident_type } = req.body;
+
+    // Reject admin/manager registration through normal register endpoint
+    if (role === 'manager' || role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin/Manager accounts cannot be created via public registration.'
+      });
+    }
+
+    const targetRole = role === 'watchman' ? 'watchman' : 'resident';
+    const targetResidentType = targetRole === 'watchman' ? null : (resident_type === 'tenant' ? 'tenant' : 'owner');
 
     // Validate required fields
-    if (!name || !email || !password || !flat_no || !phone) {
+    if (!name || !email || !password || !phone) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields: name, email, password, flat_no, phone'
+        message: 'Please provide all required fields: name, email, password, phone'
+      });
+    }
+
+    if (targetRole !== 'watchman' && !flat_no) {
+      return res.status(400).json({
+        success: false,
+        message: 'Flat number is required for residents.'
       });
     }
 
@@ -57,30 +75,51 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    // Validate flat number format
-    if (!isValidFlatNo(flat_no)) {
+    // Validate flat number format if resident
+    if (targetRole !== 'watchman' && !isValidFlatNo(flat_no)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid flat number. Must be between 101-110, 201-210, 301-310, or 401-410'
       });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedPhone = phone.trim();
+
     // Check if email already exists
-    const existingEmail = await User.findOne({ email: email.toLowerCase() });
+    const existingEmail = await User.findOne({ email: normalizedEmail });
     if (existingEmail) {
       return res.status(400).json({
         success: false,
-        message: 'Email is already registered'
+        message: 'This email is already registered.'
       });
     }
 
-    // Check if flat is already registered
-    const existingFlat = await User.findOne({ flat_no });
-    if (existingFlat) {
+    // Check if phone number already exists
+    const existingPhone = await User.findOne({ phone: normalizedPhone });
+    if (existingPhone) {
       return res.status(400).json({
         success: false,
-        message: 'This flat is already registered'
+        message: 'This mobile number is already registered.'
       });
+    }
+
+    // Check flat registration rules for residents
+    if (targetRole !== 'watchman') {
+      const existingFlatResident = await User.findOne({
+        flat_no,
+        resident_type: targetResidentType,
+        is_active: true
+      });
+
+      if (existingFlatResident) {
+        return res.status(400).json({
+          success: false,
+          message: targetResidentType === 'owner'
+            ? 'An active owner already exists for this flat.'
+            : 'An active tenant already exists for this flat.'
+        });
+      }
     }
 
     // Check if manager exists (residents can only register after manager)
@@ -95,11 +134,12 @@ exports.register = async (req, res, next) => {
     // Create user
     const user = await User.create({
       name,
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       password_hash: password, // Will be hashed by pre-save hook
-      flat_no,
-      phone,
-      role: 'resident'
+      flat_no: targetRole === 'watchman' ? null : flat_no,
+      phone: normalizedPhone,
+      role: targetRole,
+      resident_type: targetResidentType
     });
 
     // Generate token
@@ -118,7 +158,24 @@ exports.register = async (req, res, next) => {
     });
 
   } catch (error) {
-    // Handle mongoose validation errors
+    // Handle mongoose validation or duplicate key errors
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern || {})[0];
+      if (field === 'email') {
+        return res.status(400).json({ success: false, message: 'This email is already registered.' });
+      }
+      if (field === 'phone') {
+        return res.status(400).json({ success: false, message: 'This mobile number is already registered.' });
+      }
+      if (field === 'flat_no' || (error.keyPattern && error.keyPattern.flat_no)) {
+        return res.status(400).json({
+          success: false,
+          message: targetResidentType === 'owner'
+            ? 'An active owner already exists for this flat.'
+            : 'An active tenant already exists for this flat.'
+        });
+      }
+    }
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
       return res.status(400).json({
@@ -284,14 +341,36 @@ exports.managerSetup = async (req, res, next) => {
       });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+    const normalizedPhone = phone.trim();
+
+    // Check if email already exists
+    const existingEmail = await User.findOne({ email: normalizedEmail });
+    if (existingEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'This email is already registered.'
+      });
+    }
+
+    // Check if phone number already exists
+    const existingPhone = await User.findOne({ phone: normalizedPhone });
+    if (existingPhone) {
+      return res.status(400).json({
+        success: false,
+        message: 'This mobile number is already registered.'
+      });
+    }
+
     // Create manager
     const manager = await User.create({
       name,
-      email: email.toLowerCase(),
+      email: normalizedEmail,
       password_hash: password,
       flat_no,
-      phone,
-      role: 'manager'
+      phone: normalizedPhone,
+      role: 'manager',
+      resident_type: 'owner'
     });
 
     // Generate token
@@ -504,15 +583,15 @@ exports.resetPassword = async (req, res, next) => {
     const { email, resetToken, newPassword, confirmPassword } = req.body;
 
     // Validate input
-    if (!email || !resetToken || !newPassword || !confirmPassword) {
+    if (!email || !resetToken || !newPassword) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields'
+        message: 'Please provide email, resetToken, and newPassword'
       });
     }
 
-    // Check password match
-    if (newPassword !== confirmPassword) {
+    // Check password match if confirmPassword was passed
+    if (confirmPassword && newPassword !== confirmPassword) {
       return res.status(400).json({
         success: false,
         message: 'Passwords do not match'

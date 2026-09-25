@@ -7,26 +7,42 @@ const Asset = require('../models/Asset');
  */
 exports.getAllAssets = async (req, res, next) => {
   try {
-    const { status, type } = req.query;
+    const { status, type, category, search } = req.query;
     
     // Build query
     const query = {};
     if (status && ['working', 'under_maintenance', 'not_working'].includes(status)) {
       query.status = status;
     }
-    if (type && ['lift', 'water_pump', 'generator'].includes(type)) {
-      query.type = type;
+    if (type) {
+      query.type = type.toLowerCase().trim();
+    }
+    if (category) {
+      query.category = category.trim();
+    }
+    if (search) {
+      const searchRegex = new RegExp(search.trim(), 'i');
+      query.$or = [
+        { name: searchRegex },
+        { location: searchRegex },
+        { notes: searchRegex },
+        { category: searchRegex }
+      ];
     }
 
     const assets = await Asset.find(query)
-      .sort({ type: 1, name: 1 });
+      .sort({ category: 1, type: 1, name: 1 });
 
     // Calculate stats
+    const allAssets = await Asset.find({});
+    const assetList = Array.isArray(allAssets) ? allAssets : (Array.isArray(assets) ? assets : []);
+
     const stats = {
-      total: assets.length,
-      working: assets.filter(a => a.status === 'working').length,
-      under_maintenance: assets.filter(a => a.status === 'under_maintenance').length,
-      not_working: assets.filter(a => a.status === 'not_working').length
+      total: assetList.length,
+      working: assetList.filter(a => a.status === 'working').length,
+      under_maintenance: assetList.filter(a => a.status === 'under_maintenance').length,
+      not_working: assetList.filter(a => a.status === 'not_working').length,
+      total_quantity: assetList.reduce((sum, a) => sum + (a.quantity || 1), 0)
     };
 
     res.status(200).json({
@@ -69,47 +85,43 @@ exports.getAssetById = async (req, res, next) => {
 /**
  * @desc    Create a new asset
  * @route   POST /api/assets
- * @access  Private (Manager only)
+ * @access  Private (Manager and Admin)
  */
 exports.createAsset = async (req, res, next) => {
   try {
-    const { name, type, status, location } = req.body;
+    const { name, type, category, quantity, status, location, purchase_date, notes } = req.body;
 
     // Validate required fields
-    if (!name || !type) {
+    if (!name || !name.trim()) {
       return res.status(400).json({
         success: false,
-        message: 'Name and type are required'
+        message: 'Asset name is required'
       });
     }
 
-    // Validate type
-    if (!['lift', 'water_pump', 'generator'].includes(type)) {
+    const parsedQuantity = quantity ? parseInt(quantity, 10) : 1;
+    if (isNaN(parsedQuantity) || parsedQuantity < 1) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid asset type. Must be lift, water_pump, or generator'
+        message: 'Quantity must be at least 1'
       });
     }
 
-    // Check if asset with same name and type already exists
-    const existingAsset = await Asset.findOne({ 
-      name: name.trim(),
-      type: type
-    });
-
-    if (existingAsset) {
-      return res.status(400).json({
-        success: false,
-        message: 'An asset with this name and type already exists'
-      });
-    }
+    const targetType = (type && type.trim()) ? type.toLowerCase().trim() : 'other';
+    const targetStatus = status && ['working', 'under_maintenance', 'not_working'].includes(status)
+      ? status
+      : 'working';
 
     // Create asset
     const asset = await Asset.create({
       name: name.trim(),
-      type,
-      status: status || 'working',
-      location: location || null,
+      type: targetType,
+      category: (category && category.trim()) ? category.trim() : 'General',
+      quantity: parsedQuantity,
+      status: targetStatus,
+      location: location ? location.trim() : null,
+      purchase_date: purchase_date ? new Date(purchase_date) : null,
+      notes: notes ? notes.trim() : null,
       services: []
     });
 
@@ -127,11 +139,11 @@ exports.createAsset = async (req, res, next) => {
 /**
  * @desc    Update asset details
  * @route   PUT /api/assets/:id
- * @access  Private (Manager only)
+ * @access  Private (Manager and Admin)
  */
 exports.updateAsset = async (req, res, next) => {
   try {
-    const { name, location } = req.body;
+    const { name, type, category, quantity, status, location, purchase_date, notes } = req.body;
 
     const asset = await Asset.findById(req.params.id);
 
@@ -143,8 +155,21 @@ exports.updateAsset = async (req, res, next) => {
     }
 
     // Update fields
-    if (name) asset.name = name.trim();
-    if (location !== undefined) asset.location = location;
+    if (name && name.trim()) asset.name = name.trim();
+    if (type !== undefined) asset.type = type ? type.toLowerCase().trim() : 'other';
+    if (category !== undefined) asset.category = category ? category.trim() : 'General';
+    if (quantity !== undefined) {
+      const parsedQty = parseInt(quantity, 10);
+      if (!isNaN(parsedQty) && parsedQty >= 1) {
+        asset.quantity = parsedQty;
+      }
+    }
+    if (status && ['working', 'under_maintenance', 'not_working'].includes(status)) {
+      asset.status = status;
+    }
+    if (location !== undefined) asset.location = location ? location.trim() : null;
+    if (purchase_date !== undefined) asset.purchase_date = purchase_date ? new Date(purchase_date) : null;
+    if (notes !== undefined) asset.notes = notes ? notes.trim() : null;
 
     await asset.save();
 
@@ -203,7 +228,7 @@ exports.updateAssetStatus = async (req, res, next) => {
 /**
  * @desc    Add service entry to asset
  * @route   POST /api/assets/:id/service
- * @access  Private (Manager only)
+ * @access  Private (Manager, Admin)
  */
 exports.logServiceEntry = async (req, res, next) => {
   try {

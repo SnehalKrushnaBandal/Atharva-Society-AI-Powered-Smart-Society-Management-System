@@ -28,8 +28,20 @@ const AssetSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['lift', 'water_pump', 'generator'],
-    required: [true, 'Asset type is required']
+    required: [true, 'Asset type is required'],
+    trim: true,
+    lowercase: true,
+    default: 'other'
+  },
+  category: {
+    type: String,
+    trim: true,
+    default: 'General'
+  },
+  quantity: {
+    type: Number,
+    default: 1,
+    min: [1, 'Quantity must be at least 1']
   },
   status: {
     type: String,
@@ -38,7 +50,18 @@ const AssetSchema = new mongoose.Schema({
   },
   location: {
     type: String,
+    default: null,
+    trim: true
+  },
+  purchase_date: {
+    type: Date,
     default: null
+  },
+  notes: {
+    type: String,
+    default: null,
+    trim: true,
+    maxlength: [1000, 'Notes cannot exceed 1000 characters']
   },
   last_service_date: {
     type: Date,
@@ -51,6 +74,7 @@ const AssetSchema = new mongoose.Schema({
 
 // Indexes
 AssetSchema.index({ type: 1 });
+AssetSchema.index({ category: 1 });
 AssetSchema.index({ status: 1 });
 
 // Update last_service_date when service is added

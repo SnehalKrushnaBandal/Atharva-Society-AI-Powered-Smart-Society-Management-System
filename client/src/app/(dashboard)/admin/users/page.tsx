@@ -62,6 +62,7 @@ interface UserData {
   phone: string;
   flat_no: string;
   role: 'manager' | 'admin' | 'resident' | 'watchman';
+  resident_type?: 'owner' | 'tenant' | null;
   is_active: boolean;
   is_verified: boolean;
   created_at: string;
@@ -132,7 +133,7 @@ export default function AdminUsersPage() {
     fetchUsers();
   }, [fetchUsers]);
 
-  const getRoleInfo = (role: string) => {
+  const getRoleInfo = (role: string, residentType?: 'owner' | 'tenant' | null) => {
     switch (role) {
       case 'manager':
         return { label: 'Manager', icon: Crown, color: 'bg-amber-100 text-amber-700 border-amber-200' };
@@ -141,6 +142,12 @@ export default function AdminUsersPage() {
       case 'watchman':
         return { label: 'Watchman', icon: Shield, color: 'bg-green-100 text-green-700 border-green-200' };
       default:
+        if (residentType === 'tenant') {
+          return { label: 'Resident (Tenant)', icon: User, color: 'bg-cyan-100 text-cyan-700 border-cyan-200' };
+        }
+        if (residentType === 'owner') {
+          return { label: 'Resident (Owner)', icon: User, color: 'bg-blue-100 text-blue-700 border-blue-200' };
+        }
         return { label: 'Resident', icon: User, color: 'bg-blue-100 text-blue-700 border-blue-200' };
     }
   };
@@ -394,7 +401,7 @@ export default function AdminUsersPage() {
                 </TableHeader>
                 <TableBody>
                   {filteredUsers.map((u) => {
-                    const roleInfo = getRoleInfo(u.role);
+                    const roleInfo = getRoleInfo(u.role, u.resident_type);
                     const RoleIcon = roleInfo.icon;
                     return (
                       <TableRow key={u._id}>
@@ -514,8 +521,8 @@ export default function AdminUsersPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">{selectedUser.name}</h3>
-                  <Badge variant="outline" className={getRoleInfo(selectedUser.role).color}>
-                    {getRoleInfo(selectedUser.role).label}
+                  <Badge variant="outline" className={getRoleInfo(selectedUser.role, selectedUser.resident_type).color}>
+                    {getRoleInfo(selectedUser.role, selectedUser.resident_type).label}
                   </Badge>
                 </div>
               </div>
@@ -551,6 +558,14 @@ export default function AdminUsersPage() {
                     )}
                   </p>
                 </div>
+                {selectedUser.resident_type && (
+                  <div>
+                    <p className="text-xs text-slate-500">Resident Type</p>
+                    <p className="text-sm font-medium capitalize">
+                      {selectedUser.resident_type}
+                    </p>
+                  </div>
+                )}
                 <div className="col-span-2">
                   <p className="text-xs text-slate-500">Member Since</p>
                   <p className="text-sm font-medium">

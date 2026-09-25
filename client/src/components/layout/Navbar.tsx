@@ -33,6 +33,8 @@ import {
   Shield,
   User,
   Crown,
+  Building2,
+  Wrench,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -52,8 +54,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: '/', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
+  { href: '/notices', label: 'Notices & Events', icon: <Bell className="w-4 h-4" /> },
   { href: '/maintenance', label: 'Maintenance', icon: <CreditCard className="w-4 h-4" /> },
   { href: '/complaints', label: 'My Complaints', icon: <MessageSquare className="w-4 h-4" /> },
+  { href: '/assets', label: 'Society Assets', icon: <Building2 className="w-4 h-4" /> },
+  { href: '/services', label: 'Society Services', icon: <Wrench className="w-4 h-4" /> },
   { href: '/emergency', label: 'Emergency', icon: <AlertTriangle className="w-4 h-4" /> },
 ];
 

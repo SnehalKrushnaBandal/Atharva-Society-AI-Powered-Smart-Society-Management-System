@@ -38,7 +38,28 @@ export const ASSET_TYPES = {
   LIFT: 'lift',
   WATER_PUMP: 'water_pump',
   GENERATOR: 'generator',
+  CHAIRS: 'chairs',
+  TABLES: 'tables',
+  BENCHES: 'benches',
+  LIGHTS: 'lights',
+  FANS: 'fans',
+  PROJECTOR: 'projector',
+  CCTV: 'cctv',
+  FIRE_EXTINGUISHER: 'fire_extinguisher',
+  LADDER: 'ladder',
+  OTHER: 'other',
 } as const;
+
+// Asset Categories
+export const ASSET_CATEGORIES = [
+  'Machinery',
+  'Furniture',
+  'Electronics',
+  'Security',
+  'Safety',
+  'Electrical',
+  'General',
+] as const;
 
 // Asset Status
 export const ASSET_STATUS = {
