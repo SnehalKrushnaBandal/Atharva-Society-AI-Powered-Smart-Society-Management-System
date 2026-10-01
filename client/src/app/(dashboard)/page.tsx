@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { SOCIETY_NAME } from '@/lib/constants';
+import PublicHomePage from '@/components/home/PublicHomePage';
 import {
   PaymentCard,
   ComplaintsWidget,
@@ -30,6 +31,7 @@ import {
   MapPin,
   Shield,
   Zap,
+  Building2,
 } from 'lucide-react';
 
 // Mock data - will be replaced with API calls later
@@ -48,7 +50,7 @@ const MOCK_DATA = {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const { toast } = useToast();
   const { 
     activeEmergency, 
@@ -117,9 +119,14 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-10 h-10 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin"></div>
+        <div className="w-10 h-10 rounded-full border-4 border-teal-100 border-t-teal-700 animate-spin"></div>
       </div>
     );
+  }
+
+  // Render the public landing page for unauthenticated visitors
+  if (!isAuthenticated || !user) {
+    return <PublicHomePage />;
   }
 
   // Get current hour for greeting
@@ -140,23 +147,23 @@ export default function DashboardPage() {
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             {greeting}, {user?.name?.split(' ')[0]}
           </h1>
-          <p className="text-slate-500 mt-1 flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
+          <p className="text-slate-500 text-xs sm:text-sm mt-1 flex items-center gap-1.5 font-medium">
+            <MapPin className="w-3.5 h-3.5 text-teal-700" />
             Flat {user?.flat_no} • {SOCIETY_NAME}
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="outline" className="px-3 py-1.5 text-sm font-medium bg-white">
-            <Calendar className="w-4 h-4 mr-1.5 text-slate-400" />
-            {new Date().toLocaleDateString('en-IN', { weekday: 'long', month: 'short', day: 'numeric' })}
+        <div className="flex items-center gap-2.5">
+          <Badge variant="outline" className="px-3 py-1.5 text-xs font-semibold bg-white border-slate-200 text-slate-700">
+            <Calendar className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
+            {new Date().toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' })}
           </Badge>
           {isAdmin && (
-            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 px-3 py-1.5">
-              <Shield className="w-4 h-4 mr-1.5" />
-              {user?.role === 'manager' ? 'Manager' : 'Admin'}
+            <Badge className="bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-100 px-3 py-1.5 text-xs font-bold">
+              <Shield className="w-3.5 h-3.5 mr-1.5" />
+              {user?.role === 'manager' ? 'Society Manager' : 'Admin'}
             </Badge>
           )}
         </div>
@@ -189,19 +196,19 @@ export default function DashboardPage() {
       {/* Two Column Section */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* Emergency Section - Takes 3 columns */}
-        <Card className="lg:col-span-3 overflow-hidden border-0 shadow-sm bg-gradient-to-br from-white to-slate-50">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
+        <Card className="lg:col-span-3 overflow-hidden border border-slate-200 shadow-sm bg-gradient-to-br from-white to-slate-50 rounded-2xl">
+          <CardHeader className="pb-3 border-b border-slate-100">
+            <CardTitle className="flex items-center gap-2.5 text-base font-bold text-slate-900">
+              <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center">
                 <AlertTriangle className="w-4 h-4 text-red-600" />
               </div>
-              Lift Emergency
+              <span>Lift Emergency Trigger</span>
             </CardTitle>
-            <p className="text-sm text-slate-500">
+            <p className="text-xs text-slate-500">
               Use only in case of actual emergency when someone is stuck in the lift
             </p>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-4">
             <EmergencyButton
               onTrigger={handleTriggerEmergency}
               hasActiveEmergency={!!activeEmergency}
@@ -212,41 +219,41 @@ export default function DashboardPage() {
         </Card>
 
         {/* Profile Card - Takes 2 columns */}
-        <Card className="lg:col-span-2 border-0 shadow-sm">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                <Activity className="w-4 h-4 text-blue-600" />
+        <Card className="lg:col-span-2 border border-slate-200 shadow-sm rounded-2xl bg-white">
+          <CardHeader className="pb-3 border-b border-slate-100">
+            <CardTitle className="flex items-center gap-2.5 text-base font-bold text-slate-900">
+              <div className="w-8 h-8 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-700">
+                <Activity className="w-4 h-4" />
               </div>
-              Your Profile
+              <span>Resident Profile</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-4">
             {/* Profile Info */}
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-lg">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-700 to-teal-900 flex items-center justify-center shrink-0 shadow-md">
+                <span className="text-white font-extrabold text-sm">
                   {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                 </span>
               </div>
               <div className="min-w-0">
-                <h3 className="font-semibold text-slate-900 truncate">{user?.name}</h3>
-                <p className="text-sm text-slate-500 capitalize">{user?.role}</p>
+                <h3 className="font-bold text-sm text-slate-900 truncate">{user?.name}</h3>
+                <p className="text-xs text-teal-700 font-semibold capitalize">{user?.role}</p>
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-slate-100">
-              <div className="flex items-center gap-3 text-sm">
-                <Mail className="w-4 h-4 text-slate-400" />
-                <span className="text-slate-600 truncate">{user?.email}</span>
+            <div className="space-y-2 pt-2 border-t border-slate-100 text-xs">
+              <div className="flex items-center gap-2.5 text-slate-600">
+                <Mail className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span className="truncate">{user?.email}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm">
-                <Phone className="w-4 h-4 text-slate-400" />
-                <span className="text-slate-600">{user?.phone || 'Not provided'}</span>
+              <div className="flex items-center gap-2.5 text-slate-600">
+                <Phone className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span>{user?.phone || 'Not provided'}</span>
               </div>
-              <div className="flex items-center gap-3 text-sm">
-                <MapPin className="w-4 h-4 text-slate-400" />
-                <span className="text-slate-600">Flat {user?.flat_no}</span>
+              <div className="flex items-center gap-2.5 text-slate-600">
+                <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                <span>Flat {user?.flat_no} • Atharva Society</span>
               </div>
             </div>
           </CardContent>
@@ -255,37 +262,37 @@ export default function DashboardPage() {
 
       {/* Admin Quick Actions */}
       {isAdmin && (
-        <Card className="border-0 shadow-sm bg-gradient-to-r from-slate-900 to-slate-800 text-white">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center gap-2 text-lg text-white">
-              <Zap className="w-5 h-5 text-blue-400" />
-              Admin Quick Actions
+        <Card className="border border-slate-800 shadow-md bg-slate-900 text-white rounded-2xl overflow-hidden">
+          <CardHeader className="pb-3 border-b border-slate-800">
+            <CardTitle className="flex items-center gap-2 text-base font-bold text-white">
+              <Zap className="w-4 h-4 text-teal-400" />
+              <span>Admin Quick Actions</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <Link href="/admin/users">
-                <Button variant="secondary" className="w-full h-auto py-4 flex flex-col gap-2 bg-slate-700/50 hover:bg-slate-700 border-0 text-white">
-                  <Users className="w-5 h-5" />
-                  <span className="text-xs font-medium">Manage Users</span>
+                <Button variant="secondary" className="w-full h-auto py-3.5 flex flex-col gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-white rounded-xl">
+                  <Users className="w-5 h-5 text-teal-400" />
+                  <span className="text-xs font-semibold">Manage Users</span>
                 </Button>
               </Link>
               <Link href="/admin/payments">
-                <Button variant="secondary" className="w-full h-auto py-4 flex flex-col gap-2 bg-slate-700/50 hover:bg-slate-700 border-0 text-white">
-                  <BarChart3 className="w-5 h-5" />
-                  <span className="text-xs font-medium">All Payments</span>
+                <Button variant="secondary" className="w-full h-auto py-3.5 flex flex-col gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-white rounded-xl">
+                  <BarChart3 className="w-5 h-5 text-teal-400" />
+                  <span className="text-xs font-semibold">All Payments</span>
                 </Button>
               </Link>
               <Link href="/admin/complaints">
-                <Button variant="secondary" className="w-full h-auto py-4 flex flex-col gap-2 bg-slate-700/50 hover:bg-slate-700 border-0 text-white">
-                  <FileText className="w-5 h-5" />
-                  <span className="text-xs font-medium">All Complaints</span>
+                <Button variant="secondary" className="w-full h-auto py-3.5 flex flex-col gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-white rounded-xl">
+                  <FileText className="w-5 h-5 text-teal-400" />
+                  <span className="text-xs font-semibold">All Complaints</span>
                 </Button>
               </Link>
               <Link href="/admin/assets">
-                <Button variant="secondary" className="w-full h-auto py-4 flex flex-col gap-2 bg-slate-700/50 hover:bg-slate-700 border-0 text-white">
-                  <Settings className="w-5 h-5" />
-                  <span className="text-xs font-medium">Manage Assets</span>
+                <Button variant="secondary" className="w-full h-auto py-3.5 flex flex-col gap-2 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-white rounded-xl">
+                  <Settings className="w-5 h-5 text-teal-400" />
+                  <span className="text-xs font-semibold">Manage Assets</span>
                 </Button>
               </Link>
             </div>

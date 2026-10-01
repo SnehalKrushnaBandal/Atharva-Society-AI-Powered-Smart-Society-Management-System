@@ -9,25 +9,25 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { Mail, KeyRound, Lock, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
-
+import { Mail, KeyRound, Lock, ArrowLeft, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { SOCIETY_NAME } from '@/lib/constants';
 import api from '@/lib/api';
 
 type Step = 'email' | 'otp' | 'password' | 'success';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
-  
+
   // Step state
   const [step, setStep] = useState<Step>('email');
-  
+
   // Form data
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetToken, setResetToken] = useState('');
-  
+
   // UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -159,26 +159,26 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  // Progress indicator
+  // Progress indicator styled for Atharva Society theme
   const ProgressSteps = () => (
-    <div className="flex items-center justify-center space-x-2 mb-6">
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-        step === 'email' ? 'bg-primary text-white' : 
-        step !== 'email' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
+    <div className="flex items-center justify-center space-x-2 mb-5">
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+        step === 'email' ? 'bg-teal-700 text-white' :
+        step !== 'email' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'
       }`}>
         {step !== 'email' ? '✓' : '1'}
       </div>
-      <div className={`w-12 h-1 rounded ${step !== 'email' ? 'bg-green-500' : 'bg-gray-200'}`} />
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-        step === 'otp' ? 'bg-primary text-white' : 
-        step === 'password' || step === 'success' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
+      <div className={`w-12 h-1 rounded ${step !== 'email' ? 'bg-emerald-600' : 'bg-slate-200'}`} />
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+        step === 'otp' ? 'bg-teal-700 text-white' :
+        step === 'password' || step === 'success' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'
       }`}>
         {step === 'password' || step === 'success' ? '✓' : '2'}
       </div>
-      <div className={`w-12 h-1 rounded ${step === 'password' || step === 'success' ? 'bg-green-500' : 'bg-gray-200'}`} />
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-        step === 'password' ? 'bg-primary text-white' : 
-        step === 'success' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
+      <div className={`w-12 h-1 rounded ${step === 'password' || step === 'success' ? 'bg-emerald-600' : 'bg-slate-200'}`} />
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+        step === 'password' ? 'bg-teal-700 text-white' :
+        step === 'success' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-500'
       }`}>
         {step === 'success' ? '✓' : '3'}
       </div>
@@ -188,56 +188,76 @@ export default function ForgotPasswordPage() {
   // Step 1: Email Input
   if (step === 'email') {
     return (
-      <Card className="shadow-lg">
-        <CardHeader className="space-y-1">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-            <Mail className="w-6 h-6 text-primary" />
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+        <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-slate-50/70 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 mx-auto">
+            <Mail className="w-6 h-6" />
           </div>
-          <CardTitle className="text-2xl font-bold text-center">Forgot Password?</CardTitle>
-          <CardDescription className="text-center">
-            Enter your email address and we&apos;ll send you an OTP to reset your password
+          <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Forgot Password?
+          </CardTitle>
+          <CardDescription className="text-slate-500 text-xs max-w-xs mx-auto">
+            Enter your email address to receive a 6-digit OTP to reset your password
           </CardDescription>
         </CardHeader>
+
         <form onSubmit={handleRequestOTP}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-5">
             <ProgressSteps />
-            
+
             {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+              <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700 py-2.5">
+                <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
               </Alert>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your registered email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-                autoComplete="email"
-              />
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-slate-700 font-semibold text-xs">Registered Email Address</Label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your registered email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  autoComplete="email"
+                  className="pl-10 h-10 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-teal-600 focus:ring-teal-600 text-sm"
+                />
+              </div>
             </div>
+          </CardContent>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+          <CardFooter className="flex flex-col space-y-3.5 pt-2 pb-6">
+            <Button
+              type="submit"
+              className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-sm transition-all"
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Sending OTP...
                 </>
               ) : (
-                'Send OTP'
+                <>
+                  Send OTP Code
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
               )}
             </Button>
-          </CardContent>
+
+            <div className="flex items-center justify-between w-full text-xs text-slate-600">
+              <Link href="/" className="text-slate-500 hover:text-teal-700 inline-flex items-center gap-1 font-medium">
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
+              </Link>
+              <Link href="/login" className="text-teal-700 font-bold hover:text-teal-800 hover:underline">
+                Back to Login
+              </Link>
+            </div>
+          </CardFooter>
         </form>
-        <CardFooter className="flex justify-center">
-          <Link href="/login" className="text-primary font-medium hover:underline flex items-center gap-1">
-            <ArrowLeft className="w-4 h-4" /> Back to Login
-          </Link>
-        </CardFooter>
       </Card>
     );
   }
@@ -245,34 +265,37 @@ export default function ForgotPasswordPage() {
   // Step 2: OTP Verification
   if (step === 'otp') {
     return (
-      <Card className="shadow-lg">
-        <CardHeader className="space-y-1">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-            <KeyRound className="w-6 h-6 text-primary" />
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+        <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-slate-50/70 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 mx-auto">
+            <KeyRound className="w-6 h-6" />
           </div>
-          <CardTitle className="text-2xl font-bold text-center">Verify OTP</CardTitle>
-          <CardDescription className="text-center">
-            Enter the 6-digit code sent to<br />
-            <span className="font-medium text-foreground">{email}</span>
+          <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Verify OTP Code
+          </CardTitle>
+          <CardDescription className="text-slate-500 text-xs max-w-xs mx-auto">
+            Enter the 6-digit verification code sent to<br />
+            <span className="font-bold text-slate-800">{email}</span>
           </CardDescription>
         </CardHeader>
+
         <form onSubmit={handleVerifyOTP}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-5">
             <ProgressSteps />
 
             {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+              <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700 py-2.5">
+                <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
               </Alert>
             )}
 
             {message && (
-              <Alert className="border-green-500 bg-green-50 text-green-700">
-                <AlertDescription>{message}</AlertDescription>
+              <Alert className="border-emerald-200 bg-emerald-50 text-emerald-800 py-2.5">
+                <AlertDescription className="text-xs font-medium">{message}</AlertDescription>
               </Alert>
             )}
 
-            <div className="flex justify-center">
+            <div className="flex justify-center py-2">
               <InputOTP
                 maxLength={6}
                 value={otp}
@@ -290,38 +313,47 @@ export default function ForgotPasswordPage() {
               </InputOTP>
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading || otp.length !== 6}>
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                'Verify OTP'
-              )}
-            </Button>
-
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-xs text-slate-500">
               Didn&apos;t receive the code?{' '}
               <button
                 type="button"
                 onClick={handleResendOTP}
                 disabled={loading}
-                className="text-primary font-medium hover:underline disabled:opacity-50"
+                className="text-teal-700 font-bold hover:underline disabled:opacity-50"
               >
                 Resend OTP
               </button>
             </div>
           </CardContent>
+
+          <CardFooter className="flex flex-col space-y-3.5 pt-2 pb-6">
+            <Button
+              type="submit"
+              className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-sm transition-all"
+              disabled={loading || otp.length !== 6}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                <>
+                  Verify & Proceed
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              )}
+            </Button>
+
+            <button
+              type="button"
+              onClick={() => { setStep('email'); setOtp(''); setError(''); setMessage(''); }}
+              className="text-xs text-slate-500 hover:text-teal-700 inline-flex items-center gap-1 font-medium mx-auto"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" /> Change Email Address
+            </button>
+          </CardFooter>
         </form>
-        <CardFooter className="flex justify-center">
-          <button
-            onClick={() => { setStep('email'); setOtp(''); setError(''); setMessage(''); }}
-            className="text-primary font-medium hover:underline flex items-center gap-1"
-          >
-            <ArrowLeft className="w-4 h-4" /> Change Email
-          </button>
-        </CardFooter>
       </Card>
     );
   }
@@ -329,63 +361,83 @@ export default function ForgotPasswordPage() {
   // Step 3: New Password
   if (step === 'password') {
     return (
-      <Card className="shadow-lg">
-        <CardHeader className="space-y-1">
-          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-            <Lock className="w-6 h-6 text-primary" />
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+        <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-slate-50/70 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 mx-auto">
+            <Lock className="w-6 h-6" />
           </div>
-          <CardTitle className="text-2xl font-bold text-center">Create New Password</CardTitle>
-          <CardDescription className="text-center">
-            Enter your new password below
+          <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Set New Password
+          </CardTitle>
+          <CardDescription className="text-slate-500 text-xs max-w-xs mx-auto">
+            Create a secure password for your {SOCIETY_NAME} account
           </CardDescription>
         </CardHeader>
+
         <form onSubmit={handleResetPassword}>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-5">
             <ProgressSteps />
 
             {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+              <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700 py-2.5">
+                <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
               </Alert>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="newPassword">New Password</Label>
-              <Input
-                id="newPassword"
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                disabled={loading}
-                autoComplete="new-password"
-              />
+            <div className="space-y-1.5">
+              <Label htmlFor="newPassword" className="text-slate-700 font-semibold text-xs">New Password *</Label>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Input
+                  id="newPassword"
+                  type="password"
+                  placeholder="Min 6 characters"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  disabled={loading}
+                  autoComplete="new-password"
+                  className="pl-10 h-10 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-teal-600 focus:ring-teal-600 text-sm"
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={loading}
-                autoComplete="new-password"
-              />
+            <div className="space-y-1.5">
+              <Label htmlFor="confirmPassword" className="text-slate-700 font-semibold text-xs">Confirm New Password *</Label>
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
+                  autoComplete="new-password"
+                  className="pl-10 h-10 bg-slate-50/50 border-slate-200 focus:bg-white focus:border-teal-600 focus:ring-teal-600 text-sm"
+                />
+              </div>
             </div>
+          </CardContent>
 
-            <Button type="submit" className="w-full" disabled={loading}>
+          <CardFooter className="flex flex-col space-y-3.5 pt-2 pb-6">
+            <Button
+              type="submit"
+              className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-sm transition-all"
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Resetting Password...
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Updating Password...
                 </>
               ) : (
-                'Reset Password'
+                <>
+                  Reset Password & Sign In
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
               )}
             </Button>
-          </CardContent>
+          </CardFooter>
         </form>
       </Card>
     );
@@ -393,19 +445,24 @@ export default function ForgotPasswordPage() {
 
   // Step 4: Success
   return (
-    <Card className="shadow-lg">
-      <CardHeader className="space-y-1">
-        <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
-          <CheckCircle2 className="w-10 h-10 text-green-600" />
+    <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+      <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-emerald-50/50 text-center">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 mx-auto">
+          <CheckCircle2 className="w-6 h-6" />
         </div>
-        <CardTitle className="text-2xl font-bold text-center text-green-600">Password Reset Successful!</CardTitle>
-        <CardDescription className="text-center">
-          Your password has been changed successfully. You can now login with your new password.
+        <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          Password Changed!
+        </CardTitle>
+        <CardDescription className="text-slate-600 text-xs max-w-xs mx-auto">
+          Your password has been successfully updated. You can now log in with your new credentials.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <Button onClick={() => router.push('/login')} className="w-full">
-          Go to Login
+      <CardContent className="py-6 space-y-4">
+        <Button
+          onClick={() => router.push('/login')}
+          className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-sm"
+        >
+          Proceed to Login <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </CardContent>
     </Card>

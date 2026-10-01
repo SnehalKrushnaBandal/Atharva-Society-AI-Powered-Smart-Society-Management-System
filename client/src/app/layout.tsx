@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
-  title: "Atharva Society | AI-Powered Smart Society Management",
-  description: "AI-Powered Smart Society Management System for intelligent residential community management.",
+  title: "Atharva Society | Intelligent Society Management",
+  description: "Atharva Society - Intelligent Society Management System for residential community management.",
 };
 
 export default function RootLayout({
@@ -20,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <AuthProvider>
           {children}
         </AuthProvider>

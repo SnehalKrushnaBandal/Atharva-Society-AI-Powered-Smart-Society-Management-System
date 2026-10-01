@@ -16,13 +16,11 @@ import {
   Mail,
   Lock,
   Phone,
-  Building2,
-  ShieldCheck,
-  Home,
   UserCheck,
   Loader2,
   CheckCircle2,
   ArrowRight,
+  ArrowLeft,
 } from 'lucide-react';
 import api from '@/lib/api';
 
@@ -144,11 +142,11 @@ export default function RegisterPage() {
   // Show loading while checking auth/manager status
   if (authLoading || checkingManager) {
     return (
-      <Card className="border border-slate-200/80 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
         <CardContent className="py-12">
           <div className="flex flex-col items-center justify-center gap-3">
             <div className="w-10 h-10 rounded-full border-4 border-teal-100 border-t-teal-700 animate-spin"></div>
-            <p className="text-sm font-medium text-slate-500">Initializing registration portal...</p>
+            <p className="text-xs font-semibold text-slate-500">Initializing registration portal...</p>
           </div>
         </CardContent>
       </Card>
@@ -156,23 +154,23 @@ export default function RegisterPage() {
   }
 
   return (
-    <Card className="border border-slate-200/80 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden">
-      <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-slate-50/50">
-        <div className="flex items-center justify-center mb-1">
-          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-700">
-            <UserCheck className="w-6 h-6" />
-          </div>
+    <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+      <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-slate-50/70 text-center">
+        <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 mx-auto">
+          <UserCheck className="w-6 h-6" />
         </div>
-        <CardTitle className="text-2xl font-bold text-center text-slate-900 tracking-tight">Create Community Account</CardTitle>
-        <CardDescription className="text-center text-slate-500 text-xs">
+        <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          Create Community Account
+        </CardTitle>
+        <CardDescription className="text-slate-500 text-xs max-w-xs mx-auto">
           Join {SOCIETY_NAME} as a Flat Owner, Tenant, or Security Staff
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-3.5 pt-4">
+        <CardContent className="space-y-3.5 pt-5">
           {error && (
-            <Alert variant="destructive" className="border-red-200 bg-red-50/80 text-red-700 py-2.5">
+            <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700 py-2.5">
               <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
             </Alert>
           )}
@@ -312,7 +310,7 @@ export default function RegisterPage() {
         <CardFooter className="flex flex-col space-y-3.5 pt-2 pb-6">
           <Button
             type="submit"
-            className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-semibold text-sm shadow-md shadow-teal-700/20 transition-all"
+            className="w-full h-11 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm shadow-sm transition-all"
             disabled={loading}
           >
             {loading ? (
@@ -328,15 +326,23 @@ export default function RegisterPage() {
             )}
           </Button>
 
-          <p className="text-xs text-center text-slate-600">
-            Already have an account?{' '}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 w-full text-xs text-slate-600">
             <Link
-              href="/login"
-              className="text-teal-700 font-bold hover:text-teal-800 hover:underline"
+              href="/"
+              className="text-slate-500 hover:text-teal-700 inline-flex items-center gap-1 font-medium"
             >
-              Sign in here
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to Website
             </Link>
-          </p>
+            <p>
+              Already have an account?{' '}
+              <Link
+                href="/login"
+                className="text-teal-700 font-bold hover:text-teal-800 hover:underline"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
         </CardFooter>
       </form>
     </Card>

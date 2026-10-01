@@ -13,15 +13,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FLAT_NUMBERS, SOCIETY_NAME } from '@/lib/constants';
 import {
   Crown,
-  Shield,
   User,
   Mail,
   Lock,
   Phone,
-  Building2,
   Loader2,
   ArrowRight,
   ShieldAlert,
+  ArrowLeft,
 } from 'lucide-react';
 import api from '@/lib/api';
 
@@ -130,11 +129,11 @@ export default function ManagerSetupPage() {
   // Show loading while checking status
   if (authLoading || managerExists === null) {
     return (
-      <Card className="border border-slate-200/80 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
         <CardContent className="py-12">
           <div className="flex flex-col items-center justify-center gap-3">
             <div className="w-10 h-10 rounded-full border-4 border-amber-100 border-t-amber-600 animate-spin"></div>
-            <p className="text-sm font-medium text-slate-500">Checking society manager status...</p>
+            <p className="text-xs font-semibold text-slate-500">Checking society manager status...</p>
           </div>
         </CardContent>
       </Card>
@@ -144,12 +143,12 @@ export default function ManagerSetupPage() {
   // If manager exists, show message (will redirect)
   if (managerExists) {
     return (
-      <Card className="border border-slate-200/80 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+      <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
         <CardContent className="py-10 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
             <ShieldAlert className="w-6 h-6" />
           </div>
-          <p className="text-sm font-semibold text-slate-800">Manager already registered for {SOCIETY_NAME}.</p>
+          <p className="text-sm font-bold text-slate-800">Manager already registered for {SOCIETY_NAME}.</p>
           <p className="text-xs text-slate-500">Redirecting to login portal...</p>
         </CardContent>
       </Card>
@@ -157,21 +156,21 @@ export default function ManagerSetupPage() {
   }
 
   return (
-    <Card className="border border-slate-200/80 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden">
-      <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-amber-50/40">
-        <div className="flex items-center justify-center mb-1">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700">
-            <Crown className="w-6 h-6" />
-          </div>
+    <Card className="border border-slate-200 shadow-md bg-white rounded-2xl overflow-hidden">
+      <CardHeader className="space-y-2 pb-4 border-b border-slate-100 bg-amber-50/50 text-center">
+        <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700 mx-auto">
+          <Crown className="w-6 h-6" />
         </div>
-        <CardTitle className="text-2xl font-bold text-center text-slate-900 tracking-tight">First Manager Setup</CardTitle>
-        <CardDescription className="text-center text-slate-600 text-xs">
+        <CardTitle className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+          First Manager Setup
+        </CardTitle>
+        <CardDescription className="text-slate-600 text-xs max-w-xs mx-auto">
           Register the primary Committee Administrator account for {SOCIETY_NAME}
         </CardDescription>
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-3.5 pt-4">
+        <CardContent className="space-y-3.5 pt-5">
           <Alert className="border-amber-200 bg-amber-50/80 text-amber-900 py-2.5">
             <AlertDescription className="text-xs font-medium">
               👑 Welcome! As the first user, your account will be granted Manager access to configure society billing, assets, users, and announcements.
@@ -179,7 +178,7 @@ export default function ManagerSetupPage() {
           </Alert>
 
           {error && (
-            <Alert variant="destructive" className="border-red-200 bg-red-50/80 text-red-700 py-2.5">
+            <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-700 py-2.5">
               <AlertDescription className="text-xs font-medium">{error}</AlertDescription>
             </Alert>
           )}
@@ -207,7 +206,7 @@ export default function ManagerSetupPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="manager@athardasociety.com"
+                placeholder="manager@atharvasociety.com"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 disabled={loading}
@@ -292,7 +291,7 @@ export default function ManagerSetupPage() {
         <CardFooter className="flex flex-col space-y-3.5 pt-2 pb-6">
           <Button
             type="submit"
-            className="w-full h-11 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-md shadow-amber-600/20 transition-all"
+            className="w-full h-11 bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all"
             disabled={loading}
           >
             {loading ? (
@@ -308,15 +307,23 @@ export default function ManagerSetupPage() {
             )}
           </Button>
 
-          <p className="text-xs text-center text-slate-600">
-            Already have a manager account?{' '}
+          <div className="flex items-center justify-between w-full text-xs text-slate-600">
             <Link
-              href="/login"
-              className="text-amber-700 font-bold hover:text-amber-800 hover:underline"
+              href="/"
+              className="text-slate-500 hover:text-amber-700 inline-flex items-center gap-1 font-medium"
             >
-              Sign in here
+              <ArrowLeft className="w-3.5 h-3.5" /> Back to Website
             </Link>
-          </p>
+            <p>
+              Already configured?{' '}
+              <Link
+                href="/login"
+                className="text-amber-700 font-bold hover:text-amber-800 hover:underline"
+              >
+                Sign in here
+              </Link>
+            </p>
+          </div>
         </CardFooter>
       </form>
     </Card>

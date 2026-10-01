@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useEmergency } from '@/hooks/useEmergency';
 import Navbar from '@/components/layout/Navbar';
@@ -16,16 +16,17 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { loading, user, isAuthenticated } = useAuth();
   const { activeEmergency, loading: emergencyLoading, resolveEmergency, resolveLoading } = useEmergency();
   const { toast } = useToast();
 
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated on protected routes (not the public homepage)
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (!loading && !isAuthenticated && pathname !== '/') {
       router.push('/login');
     }
-  }, [loading, isAuthenticated, router]);
+  }, [loading, isAuthenticated, pathname, router]);
 
   // Check if user can resolve emergency (manager or admin)
   const canResolve = user?.role === 'manager' || user?.role === 'admin';
@@ -46,11 +47,21 @@ export default function DashboardLayout({
     }
   };
 
+  // Public homepage: render children without the dashboard shell
+  if (pathname === '/' && !isAuthenticated && !loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        {children}
+        <Toaster />
+      </div>
+    );
+  }
+
   if (loading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 rounded-full border-4 border-blue-100 border-t-blue-600 animate-spin mx-auto"></div>
+          <div className="w-12 h-12 rounded-full border-4 border-teal-100 border-t-teal-700 animate-spin mx-auto"></div>
           <p className="mt-4 text-slate-500 text-sm font-medium">Loading...</p>
         </div>
       </div>
