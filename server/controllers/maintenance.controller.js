@@ -333,7 +333,39 @@ exports.createOrder = async (req, res, next) => {
       }
     };
 
-    const order = await razorpay.orders.create(options);
+    let order;
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isPlaceholderKey = !process.env.RAZORPAY_KEY_ID ||
+      process.env.RAZORPAY_KEY_ID.includes('xxxx') ||
+      process.env.RAZORPAY_KEY_ID.includes('your_');
+    const isSimulationEnabled = !isProduction && (
+      process.env.ENABLE_TEST_PAYMENT_SIMULATION === 'true' || isPlaceholderKey
+    );
+
+    if (isSimulationEnabled) {
+      order = {
+        id: `order_test_${Date.now()}`,
+        amount: options.amount,
+        currency: options.currency,
+        status: 'created'
+      };
+    } else {
+      if (isProduction && isPlaceholderKey) {
+        return res.status(500).json({
+          success: false,
+          message: 'Razorpay API credentials are not configured in production environment'
+        });
+      }
+      try {
+        order = await razorpay.orders.create(options);
+      } catch (razorpayErr) {
+        console.error('Razorpay Order Creation Error:', razorpayErr);
+        return res.status(502).json({
+          success: false,
+          message: `Razorpay payment gateway error: ${razorpayErr.message || 'Payment gateway authentication failed'}`
+        });
+      }
+    }
 
     // Save order ID to maintenance record
     maintenance.razorpay_order_id = order.id;

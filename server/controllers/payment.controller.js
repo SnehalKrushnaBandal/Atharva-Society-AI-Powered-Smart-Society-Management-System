@@ -43,6 +43,14 @@ exports.verifyPayment = async (req, res, next) => {
       });
     }
 
+    // Check if authenticated user owns this maintenance record
+    if (maintenance.user_id.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to verify payment for this maintenance record'
+      });
+    }
+
     // Verify order ID matches
     if (maintenance.razorpay_order_id !== razorpay_order_id) {
       return res.status(400).json({
@@ -60,13 +68,40 @@ exports.verifyPayment = async (req, res, next) => {
     }
 
     // Verify payment signature
-    const body = razorpay_order_id + '|' + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
-      .update(body.toString())
-      .digest('hex');
+    let isValid = false;
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isPlaceholderKey = !process.env.RAZORPAY_KEY_ID ||
+      process.env.RAZORPAY_KEY_ID.includes('xxxx') ||
+      process.env.RAZORPAY_KEY_ID.includes('your_');
+    const isSimulationEnabled = !isProduction && (
+      process.env.ENABLE_TEST_PAYMENT_SIMULATION === 'true' || isPlaceholderKey
+    );
 
-    const isValid = expectedSignature === razorpay_signature;
+    // Simulated test payment verification is ONLY allowed if the server itself generated a test order in DB AND simulation is enabled
+    if (maintenance.razorpay_order_id.startsWith('order_test_') && razorpay_order_id.startsWith('order_test_')) {
+      if (!isSimulationEnabled) {
+        return res.status(400).json({
+          success: false,
+          message: 'Simulated test payments are strictly disabled in production environment.'
+        });
+      }
+      isValid = true;
+    } else {
+      if (!process.env.RAZORPAY_KEY_SECRET || (isProduction && isPlaceholderKey)) {
+        return res.status(500).json({
+          success: false,
+          message: 'Razorpay secret key configuration is invalid or missing in production environment.'
+        });
+      }
+
+      const body = razorpay_order_id + '|' + razorpay_payment_id;
+      const expectedSignature = crypto
+        .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+        .update(body.toString())
+        .digest('hex');
+
+      isValid = expectedSignature === razorpay_signature;
+    }
 
     if (!isValid) {
       return res.status(400).json({
@@ -81,6 +116,7 @@ exports.verifyPayment = async (req, res, next) => {
     await maintenance.save();
 
     // Create payment log
+    const isSimulated = razorpay_order_id.startsWith('order_test_');
     const paymentLog = await PaymentLog.create({
       user_id: maintenance.user_id,
       flat_no: maintenance.flat_no,
@@ -90,7 +126,7 @@ exports.verifyPayment = async (req, res, next) => {
       month: maintenance.month,
       year: maintenance.year,
       razorpay_order_id: razorpay_order_id,
-      razorpay_signature: razorpay_signature
+      razorpay_signature: isSimulated ? 'simulated_dev_payment' : razorpay_signature
     });
 
     // Send confirmation email

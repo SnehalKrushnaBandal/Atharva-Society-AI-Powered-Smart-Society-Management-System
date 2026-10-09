@@ -186,6 +186,38 @@ export default function MaintenancePage() {
 
       const orderData: OrderData = orderRes.data.data;
 
+      // Handle test mode fallback order (if development credentials / placeholder keys are used)
+      if (orderData.order_id.startsWith('order_test_')) {
+        const testPaymentId = `pay_test_${Date.now()}`;
+        const verifyRes = await api.post('/payment/verify', {
+          razorpay_order_id: orderData.order_id,
+          razorpay_payment_id: testPaymentId,
+          razorpay_signature: 'test_signature',
+          maintenance_id: maintenance._id,
+        });
+
+        if (verifyRes.data.success) {
+          setLastPayment({
+            transaction_id: testPaymentId,
+            amount: orderData.maintenance.total_amount,
+            month: orderData.maintenance.month,
+            year: orderData.maintenance.year,
+          });
+          setShowSuccess(true);
+          if (selectedMaintenanceForDetails?._id === maintenance._id) {
+            setSelectedMaintenanceForDetails(null);
+          }
+          fetchData(); // Refresh data
+          toast({
+            title: 'Payment Successful! 🎉',
+            description: 'Your maintenance payment has been verified and recorded.',
+          });
+        } else {
+          throw new Error(verifyRes.data.message || 'Payment verification failed');
+        }
+        return;
+      }
+
       // Configure Razorpay
       const options: RazorpayOptions = {
         key: orderData.key_id,

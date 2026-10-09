@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useEmergency } from '@/hooks/useEmergency';
 import { useToast } from '@/hooks/use-toast';
+import api from '@/lib/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -34,19 +35,17 @@ import {
   Building2,
 } from 'lucide-react';
 
-// Mock data - will be replaced with API calls later
-const MOCK_DATA = {
-  maintenance: {
-    amount: 1000,
-    dueDate: new Date(new Date().getFullYear(), new Date().getMonth(), 18).toISOString(),
-    status: 'pending' as const,
-    lateFeesApplied: 0,
-  },
-  complaints: {
-    openCount: 2,
-    inProgressCount: 1,
-  },
-};
+interface MaintenanceData {
+  amount: number;
+  dueDate: string;
+  status: 'pending' | 'paid' | 'overdue' | 'partial';
+  lateFeesApplied: number;
+}
+
+interface ComplaintsData {
+  openCount: number;
+  inProgressCount: number;
+}
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -60,8 +59,9 @@ export default function DashboardPage() {
     triggerLoading,
     resolveLoading,
   } = useEmergency();
-  
-  const [dashboardData, setDashboardData] = useState(MOCK_DATA);
+
+  const [maintenance, setMaintenance] = useState<MaintenanceData | null>(null);
+  const [complaints, setComplaints] = useState<ComplaintsData>({ openCount: 0, inProgressCount: 0 });
   const [dataLoading, setDataLoading] = useState(true);
 
   // Check if user is admin/manager
@@ -74,13 +74,56 @@ export default function DashboardPage() {
     }
   }, [user, loading, router]);
 
-  // Simulate loading data
+  // Fetch live maintenance and complaints data from existing endpoints
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDataLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+    let isMounted = true;
+    if (!isAuthenticated || !user || user.role === 'watchman') return;
+
+    const fetchDashboardData = async () => {
+      setDataLoading(true);
+      try {
+        const [mRes, cRes] = await Promise.allSettled([
+          api.get('/maintenance/current'),
+          api.get('/complaints'),
+        ]);
+
+        if (isMounted) {
+          // Maintenance data processing
+          if (mRes.status === 'fulfilled' && mRes.value.data?.success && mRes.value.data?.data) {
+            const m = mRes.value.data.data;
+            setMaintenance({
+              amount: m.amount || 1000,
+              dueDate: m.due_date || new Date().toISOString(),
+              status: m.status || 'pending',
+              lateFeesApplied: m.late_fee || 0,
+            });
+          } else {
+            setMaintenance(null);
+          }
+
+          // Complaints data processing
+          if (cRes.status === 'fulfilled' && cRes.value.data?.success && Array.isArray(cRes.value.data?.data)) {
+            const list = cRes.value.data.data;
+            const openCount = list.filter((c: any) => c.status === 'open').length;
+            const inProgressCount = list.filter((c: any) => c.status === 'in-progress').length;
+            setComplaints({ openCount, inProgressCount });
+          } else {
+            setComplaints({ openCount: 0, inProgressCount: 0 });
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch live dashboard data:', err);
+      } finally {
+        if (isMounted) setDataLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isAuthenticated, user]);
 
   // Handle emergency trigger
   const handleTriggerEmergency = async (notes?: string) => {
@@ -173,17 +216,17 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Payment Card */}
         <PaymentCard
-          amount={dashboardData.maintenance.amount}
-          dueDate={dashboardData.maintenance.dueDate}
-          status={dashboardData.maintenance.status}
-          lateFeesApplied={dashboardData.maintenance.lateFeesApplied}
+          amount={maintenance?.amount || 1000}
+          dueDate={maintenance?.dueDate || new Date().toISOString()}
+          status={maintenance?.status || 'pending'}
+          lateFeesApplied={maintenance?.lateFeesApplied || 0}
           loading={dataLoading}
         />
 
         {/* Complaints Widget */}
         <ComplaintsWidget
-          openCount={dashboardData.complaints.openCount}
-          inProgressCount={dashboardData.complaints.inProgressCount}
+          openCount={complaints.openCount}
+          inProgressCount={complaints.inProgressCount}
           loading={dataLoading}
         />
 
