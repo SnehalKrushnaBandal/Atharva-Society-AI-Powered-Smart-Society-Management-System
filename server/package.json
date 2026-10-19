@@ -11,7 +11,13 @@
     "seed:clear": "node scripts/seedData.js --clear",
     "seed:reset": "node scripts/seedData.js --reset"
   },
-  "keywords": ["society", "management", "express", "mongodb", "atharva-society"],
+  "keywords": [
+    "society",
+    "management",
+    "express",
+    "mongodb",
+    "atharva-society"
+  ],
   "author": "Group 24",
   "license": "MIT",
   "type": "commonjs",
@@ -22,6 +28,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "groq-sdk": "^1.6.0",
     "helmet": "^8.1.0",
     "imagekit": "^6.0.0",
     "jsonwebtoken": "^9.0.3",

@@ -9,6 +9,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import EmergencyBanner from '@/components/dashboard/EmergencyBanner';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
+import { AiAssistantWidget } from '@/components/dashboard';
 
 export default function DashboardLayout({
   children,
@@ -93,6 +94,7 @@ export default function DashboardLayout({
         </main>
       </div>
       <Toaster />
+      <AiAssistantWidget />
     </div>
   );
 }

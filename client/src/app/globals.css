@@ -76,3 +76,117 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* --- Atharva AI Chat: Markdown prose styles (scoped to .ai-prose) --- */
+.ai-prose {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #1e293b;
+  overflow-wrap: break-word; /* Safe wrapping without slicing short words */
+}
+.ai-prose p { margin: 0.3rem 0; }
+.ai-prose h1,.ai-prose h2,.ai-prose h3 { font-weight: 700; margin: 0.75rem 0 0.3rem; color: #0f172a; }
+.ai-prose h1 { font-size: 0.95rem; }
+.ai-prose h2 { font-size: 0.875rem; }
+.ai-prose h3 { font-size: 0.8rem; }
+.ai-prose ul { margin: 0.5rem 0; padding-left: 1.2rem; list-style-type: disc; }
+.ai-prose ol { margin: 0.5rem 0; padding-left: 1.2rem; list-style-type: decimal; }
+.ai-prose li { margin: 0.25rem 0; padding-left: 0.1rem; }
+.ai-prose li::marker { color: #0f766e; font-weight: 700; }
+.ai-prose ul ul, .ai-prose ol ol, .ai-prose ul ol, .ai-prose ol ul { margin: 0.25rem 0 0 0; }
+.ai-prose strong { font-weight: 700; color: #0f172a; }
+.ai-prose em { font-style: italic; }
+.ai-prose code { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 0.25rem; padding: 0.05rem 0.3rem; font-size: 0.7rem; font-family: ui-monospace,monospace; color: #0f766e; overflow-wrap: break-word; }
+
+/* Table wrapper: horizontal scroll with subtle inner shadow hint */
+.ai-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0.6rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+  max-width: 100%;
+  box-shadow: inset -8px 0 6px -8px rgba(0,0,0,0.1);
+}
+
+/* Elegant thin scrollbar for wide tables */
+.ai-table-wrapper::-webkit-scrollbar { height: 6px; }
+.ai-table-wrapper::-webkit-scrollbar-track { background: #f8fafc; border-radius: 0 0 0.5rem 0.5rem; }
+.ai-table-wrapper::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.ai-table-wrapper::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Table layout */
+.ai-prose table { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 0.7rem; }
+.ai-prose thead { background: #f0fdfa; }
+.ai-prose th {
+  padding: 0.4rem 0.625rem;
+  text-align: left;
+  font-weight: 700;
+  color: #134e4a;
+  border-bottom: 2px solid #99f6e4;
+  white-space: nowrap;
+}
+.ai-prose td {
+  padding: 0.4rem 0.625rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  min-width: 80px;
+  max-width: 240px; /* Forces extremely long cells to wrap instead of stretching infinitely */
+  white-space: normal;
+  vertical-align: top;
+}
+.ai-prose tbody tr:last-child td { border-bottom: none; }
+.ai-prose tbody tr:nth-child(even) { background: #f8fafc; }
+.ai-prose a { color: #0f766e; text-decoration: underline; text-underline-offset: 2px; overflow-wrap: break-word; }
+.ai-prose a:hover { color: #0d9488; }
+.ai-prose blockquote { border-left: 3px solid #99f6e4; padding-left: 0.75rem; margin: 0.4rem 0; color: #475569; font-style: italic; background: #f0fdfa; padding: 0.3rem 0.75rem; border-radius: 0 0.3rem 0.3rem 0; }
+
+/* Responsive Stacked Tables (applied to compact tables with <=5 columns universally in the narrow widget) */
+.ai-prose table.ai-table-stacked {
+  display: block;
+  width: 100%;
+}
+.ai-prose table.ai-table-stacked thead {
+  display: none;
+}
+.ai-prose table.ai-table-stacked tbody {
+  display: block;
+  width: 100%;
+}
+.ai-prose table.ai-table-stacked tr {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.ai-prose table.ai-table-stacked td {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  min-width: 100%;
+  max-width: 100%;
+  text-align: right;
+}
+.ai-prose table.ai-table-stacked tr td:last-child {
+  border-bottom: none;
+}
+.ai-prose table.ai-table-stacked td::before {
+  content: attr(data-label);
+  font-weight: 700;
+  color: #134e4a;
+  margin-right: 1rem;
+  text-align: left;
+  flex-shrink: 0;
+}
+.ai-table-stacked-wrapper {
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
